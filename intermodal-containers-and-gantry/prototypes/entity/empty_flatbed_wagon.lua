@@ -2,11 +2,16 @@
 local empty_flatbed_wagon = util.table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]);
 -- Override everything I need to
 empty_flatbed_wagon.name = "flatbed_wagon";
-empty_flatbed_wagon.icon = "__intermodal-containers-and-gantry__/graphics/item/empty-flatbed-wagon.png";
-empty_flatbed_wagon.icon_size = 32;
-empty_flatbed_wagon.icon_mipmaps = 1;
+-- empty_flatbed_wagon.icon = "__intermodal-containers-and-gantry__/graphics/icon/empty-flatbed-wagon.png";
+-- empty_flatbed_wagon.icon_size = 32;
+-- empty_flatbed_wagon.icon_mipmaps = 1;
 empty_flatbed_wagon.inventory_size = 0;
-empty_flatbed_wagon.minable = { mining_time = 1, result = "flatbed_wagon" }
+empty_flatbed_wagon.minable =
+{
+	mining_time = 1,
+	result = "iron-plate"
+	--result = "flatbed-wagon"
+}
 -- This is a flatbed and has no doors
 empty_flatbed_wagon.horizontal_doors = nil;
 empty_flatbed_wagon.vertical_doors = nil;
@@ -21,7 +26,7 @@ empty_flatbed_wagon.vertical_doors = nil;
 	cargo wagon.
 --[[]]
 empty_flatbed_wagon.weight = 250;
-
+--[[ 
 empty_flatbed_wagon.minimap_representation =
 {
 	filename = "__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-minimap-representation.png",
@@ -35,7 +40,7 @@ empty_flatbed_wagon.selected_minimap_representation =
 	flags = { "icon" },
 	size = { 20, 40 },
 	scale = 0.5,
-}
+} ]]
 
 
 -- RotatedSprite pictures
@@ -46,12 +51,15 @@ empty_flatbed_wagon.pictures =
 		-- VISABLE LAYER
 		{
 			priority = "very-low",
-			width = 238,
-			height = 230,
-			direction_count = 256,
-			allow_low_priority_rotation = true;
-			lines_length = 4;
-			lines_per_file = 8;
+			width = 256,
+			height = 256,
+			direction_count = 128,
+			allow_low_quality_rotation = true,
+			back_equals_front = true,
+			line_length = 4,
+			lines_per_file = 8,
+			scale = 0.873,
+			shift = {0, -0.5},
 			filenames =
 			{
 				"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-01.png",
@@ -59,39 +67,36 @@ empty_flatbed_wagon.pictures =
 				"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-03.png",
 				"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-04.png",
 			},
-
-			hr_version =
-			{
-				priority = "very-low",
-				width = 474,
-				height = 458,
-				direction_count = 256,
-				allow_low_priority_rotation = true;
-				lines_length = 4;
-				lines_per_file = 4;
-				scale = 0.5;
-				filenames =
-				{
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-01.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-02.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-03.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-04.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-05.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-06.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-07.png",
-					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-08.png",
-				},
-			},
+			-- hr_version =
+			-- {
+			-- 	priority = "very-low",
+			-- 	dice = 4,
+			-- 	width = 442,
+			-- 	height = 407,
+			-- 	back_equals_front = true,
+			-- 	direction_count = 128,
+			-- 	allow_low_priority_rotation = true,
+			-- 	filenames =
+			-- 	{
+			-- 		-- "__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-01.png",
+			-- 		-- "__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-02.png",
+			-- 		-- "__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-03.png",
+			-- 		-- "__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-04.png",
+			-- 	},
+			-- 	line_length = 4,
+			-- 	lines_per_file = 4,
+			-- 	scale = 0.5;
+			-- },
 		},
 		-- Color mask
-		{
+		--[[ {
 			flags = { "mask" };
 			priority = "very-low",
 			width = 236,
 			height = 226,
 			direction_count = 256,
 			allow_low_priority_rotation = true;
-			lines_length = 4;
+			line_length = 4;
 			lines_per_file = 8;
 			apply_runtime_tint = true;
 			filenames =
@@ -110,7 +115,7 @@ empty_flatbed_wagon.pictures =
 				height = 456,
 				direction_count = 256,
 				allow_low_priority_rotation = true;
-				lines_length = 4;
+				line_length = 4;
 				lines_per_file = 4;
 				scale = 0.5;
 				apply_runtime_tint = true;
@@ -126,9 +131,9 @@ empty_flatbed_wagon.pictures =
 					"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/hr-empty-flatbed-wagon-mask-08.png",
 				},
 			},
-		},
+		}, ]]
 		-- Shadow
-		{
+		--[[ {
 			flags = { "shadow" };
 			priority = "very-low",
 			width = 238,
@@ -136,7 +141,7 @@ empty_flatbed_wagon.pictures =
 			direction_count = 256,
 			draw_as_shadow = true;
 			allow_low_priority_rotation = true;
-			lines_length = 4;
+			line_length = 4;
 			lines_per_file = 8;
 			filenames =
 			{
@@ -145,10 +150,10 @@ empty_flatbed_wagon.pictures =
 				"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-shadow-03.png",
 				"__intermodal-containers-and-gantry__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-shadow-04.png",
 			},
-		},
+		}, ]]
 	},
 };
 
 
 
-data:extend(empty_flatbed_wagon);
+data:extend({empty_flatbed_wagon});
