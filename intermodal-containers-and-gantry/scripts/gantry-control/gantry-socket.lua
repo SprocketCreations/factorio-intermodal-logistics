@@ -5,41 +5,76 @@
 local makeSocket = function ()
 	local socket = {};
 
+	-- Reference to the socket entity in the world.
+	socket.entity = nil;
+
+	-- Bool. Stores whether this socket has an
+	--intermodal container in it.
+	socket.containered = false;
+
+	-- Collection of all the filters set on this socket.
+	socket.filters = {};
+
+	-- The Conditionals on this socket
+	socket.conditionals = nil;
+
 	-- This is the ingame time when a container
-	--was last removed from this socket
+	--was last removed from this socket.
 	socket.timeEmptied = 0;
 
 	-- This is a count of the number of times this
 	--socket was skipped by the gantry mind while
-	--waiting to have its container removed
+	--waiting to have its container removed.
 	socket.timesSkipped = 0;
 
 	-- Returns a sorted array of all the items
 	--requested by this socket.
 	function socket:getFilters()
+		-- Loop over all the entries in the self.filters
+		--table and add them to this local filters array.
 		local filters = {};
+		for _, filter in self.filters do
+			-- Skip the entry if it is an empty slot
+			if(filter ~= nil) then
+				filters.insert(filter);
+			end
+		end
 
-		-- TODO: Implement
-
+		-- Sort the local filters table alphabetically.
 		table.sort(filters);
-		return filters;
+
+		-- Remove duplicates from local filters and
+		--write that output to local filtersSet.
+		local filtersSet = {};
+		local lastFilterWritten = nil;
+		for _, filter in filters do
+			if(lastFilterWritten ~= filter) then
+				filtersSet.insert(filter);
+				lastFilterWritten = filter;
+			end
+		end
+
+		return filtersSet;
 	end
 
 	-- Returns a sorted array of all the items
 	--offered by this socket.
 	function socket:getItems()
-		local items = {};
+		if(self:hasContainer()) then
+			local items = {};
 
-		-- TODO: implement
+			-- TODO: implement
 
-		table.sort(items);
-		return items;
+			table.sort(items);
+			return items;
+		else
+			return {};
+		end
 	end
 
 	-- Returns true if this socket has a container.
 	function socket:hasContainer()
-		-- TODO: implement
-		return false;
+		return self.containered;
 	end
 
 	-- Returns true if this socket's remove conditions
@@ -48,8 +83,7 @@ local makeSocket = function ()
 	-- Call hasContainer() before this to know for
 	--certain.
 	function socket:meetsConditions()
-		-- TODO: implement
-		return false;
+		return self.conditionals:meetsConditions(self.entity);
 	end
 
 	return socket;
