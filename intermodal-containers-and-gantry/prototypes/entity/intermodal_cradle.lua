@@ -1,4 +1,4 @@
-function MakeCradle(
+function make_cradle(
     name,
     order,
     flags,
@@ -141,10 +141,11 @@ function MakeCradle(
 	return cradle;
 end
 
-local horizontal_empty_cradle = MakeCradle(
+local horizontal_empty_cradle = make_cradle(
     "horizontal-empty-cradle",
     "aa",
-    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" },
+	{ "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
+	"no-automated-item-removal", "no-automated-item-insertion", "not-selectable-in-game" },
     6,
 	2,
     false,
@@ -153,10 +154,11 @@ local horizontal_empty_cradle = MakeCradle(
 	256,
 	128
 );
-local vertical_empty_cradle = MakeCradle(
+local vertical_empty_cradle = make_cradle(
     "vertical-empty-cradle",
     "aa",
-    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" },
+    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
+	"no-automated-item-removal", "no-automated-item-insertion", "not-selectable-in-game" },
     2,
 	6,
     false,
@@ -165,11 +167,10 @@ local vertical_empty_cradle = MakeCradle(
 	128,
 	256
 );
-local horizontal_intermodal_cradle = MakeCradle(
+local horizontal_intermodal_cradle = make_cradle(
     "horizontal-intermodal-cradle",
     "aa",
-	{ "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
-	"no-automated-item-removal", "no-automated-item-insertion", "not-selectable-in-game" },
+    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" },
     6,
 	2,
     true,
@@ -178,11 +179,10 @@ local horizontal_intermodal_cradle = MakeCradle(
 	256,
 	128
 );
-local vertical_intermodal_cradle = MakeCradle(
+local vertical_intermodal_cradle = make_cradle(
     "vertical-intermodal-cradle",
     "aa",
-    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
-	"no-automated-item-removal", "no-automated-item-insertion", "not-selectable-in-game" },
+    { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" },
     2,
 	6,
     true,

@@ -2,13 +2,13 @@
 -- Constructor for a task.
 -- Takes startingSocket as the socket that has the container
 -- Takes endingSocket as the socket that wants the container
-local makeTask = function (startingSocket, endingSocket)
+local make_task = function (starting_socket, ending_socket)
 	local task = {};
 	
-	task.startingSocket = startingSocket;
-	task.endingSocket = endingSocket;
+	task.starting_socket = starting_socket;
+	task.ending_socket = ending_socket;
 
 	return task;
 end
 
-return makeTask;
+return make_task;

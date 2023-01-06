@@ -2,7 +2,7 @@
 -- This is a constructor for a socket.
 -- A socket is a representation of a
 --cradle or a flatbed wagon.
-local makeSocket = function ()
+local make_socket = function ()
 	local socket = {};
 
 	-- Reference to the socket entity in the world.
@@ -20,16 +20,16 @@ local makeSocket = function ()
 
 	-- This is the ingame time when a container
 	--was last removed from this socket.
-	socket.timeEmptied = 0;
+	socket.time_emptied = 0;
 
 	-- This is a count of the number of times this
 	--socket was skipped by the gantry mind while
 	--waiting to have its container removed.
-	socket.timesSkipped = 0;
+	socket.times_skipped = 0;
 
 	-- Returns a sorted array of all the items
 	--requested by this socket.
-	function socket:getFilters()
+	function socket:get_filters()
 		-- Loop over all the entries in the self.filters
 		--table and add them to this local filters array.
 		local filters = {};
@@ -45,22 +45,22 @@ local makeSocket = function ()
 
 		-- Remove duplicates from local filters and
 		--write that output to local filtersSet.
-		local filtersSet = {};
-		local lastFilterWritten = nil;
+		local filters_set = {};
+		local last_filter_written = nil;
 		for _, filter in filters do
-			if(lastFilterWritten ~= filter) then
-				filtersSet.insert(filter);
-				lastFilterWritten = filter;
+			if(last_filter_written ~= filter) then
+				filters_set.insert(filter);
+				last_filter_written = filter;
 			end
 		end
 
-		return filtersSet;
+		return filters_set;
 	end
 
 	-- Returns a sorted array of all the items
 	--offered by this socket.
-	function socket:getItems()
-		if(self:hasContainer()) then
+	function socket:get_items()
+		if(self:has_container()) then
 			local items = {};
 
 			-- TODO: implement
@@ -73,7 +73,7 @@ local makeSocket = function ()
 	end
 
 	-- Returns true if this socket has a container.
-	function socket:hasContainer()
+	function socket:has_container()
 		return self.containered;
 	end
 
@@ -82,8 +82,8 @@ local makeSocket = function ()
 	-- Note: does not check if a container if present.
 	-- Call hasContainer() before this to know for
 	--certain.
-	function socket:meetsConditions()
-		return self.conditionals:meetsConditions(self.entity);
+	function socket:meets_conditions()
+		return self.conditionals:meets_conditions(self.entity);
 	end
 
 	return socket;
@@ -92,4 +92,4 @@ end
 
 
 
-return makeSocket();
+return make_socket();

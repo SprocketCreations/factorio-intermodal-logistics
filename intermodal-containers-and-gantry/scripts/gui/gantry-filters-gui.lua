@@ -5,7 +5,7 @@
 local addFilterGUIToElement = function(root)
 	local entity_frame = root.add{
 		type = "frame",
-		name = "outer_frame",
+		name = "filter_outer_frame",
 		style = "entity_frame_without_right_padding",
 		direction = "vertical",
 	};
@@ -14,7 +14,7 @@ local addFilterGUIToElement = function(root)
 		type = "frame",
 		name = "invisible_frame",
 		direction = "vertical",
-		caption = {"gui.gantry_request"},
+		caption = {"gui.gantry-request"},
 		style = "container_invisible_frame_with_title",
 	};
 

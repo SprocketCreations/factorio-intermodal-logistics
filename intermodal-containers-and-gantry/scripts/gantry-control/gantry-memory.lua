@@ -3,45 +3,45 @@ local memory = {};
 --[[ The tables stored in the memory ]]--
 -- This is the action performed by the
 --gantry right now
-memory.currentTask = {};
+memory.current_task = {};
 -- This is a collection of all the
 --sockets that this gantry can see
 memory.sockets = {};
 -- This is a collection of all the empty
 --sockets that the gantry has access to
-memory.emptySockets = {};
+memory.empty_sockets = {};
 -- This is a collection of all the
 --sockets that have containers, but meet
 --the requirements to be unloaded
-memory.finishedSockets = {};
+memory.finished_sockets = {};
 
 -- This redetermines the placement of the
 --sockets in the above tables.
-function memory:refreshSocketCategorization()
+function memory:refresh_socket_categorization()
 	-- First clear the tables
-	self.emptySockets = {};
-	self.finishedSockets = {};
+	self.empty_sockets = {};
+	self.finished_sockets = {};
 	-- Then for each socket the gantry can access
 	for _, socket in self.sockets do
 		-- If it has not a container
-		if(socket:hasContainer() == false) then
-			self.emptySockets.insert(socket);
+		if(socket:has_container() == false) then
+			self.empty_sockets.insert(socket);
 		-- If it has a container that can be removed
-		elseif(socket:meetsConditions()) then
-			self.finishedSockets.insert(socket);
+		elseif(socket:meets_conditions()) then
+			self.finished_sockets.insert(socket);
 		end
 	end
-	local sortEmptied = function(socket1, socket2)
-		return socket1.timeEmptied < socket2.timeEmptied;
+	local sort_emptied = function(socket1, socket2)
+		return socket1.time_emptied < socket2.time_emptied;
 	end
 
-	local sortFinished = function(socket1, socket2)
-		return socket1.timesSkipped > socket2.timesSkipped;
+	local sort_finished = function(socket1, socket2)
+		return socket1.times_skipped > socket2.times_skipped;
 	end
 
 	-- Sort the sockets according to wait time
-	table.sort(self.emptySockets, sortEmptied);
-	table.sort(self.finishedSockets, sortFinished);
+	table.sort(self.empty_sockets, sort_emptied);
+	table.sort(self.finished_sockets, sort_finished);
 end
 
 return memory;
