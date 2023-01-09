@@ -2,10 +2,11 @@ local memory = require("gantry-memory");
 local make_task = require("gantry-task");
 --require("sockets");
 
--- Constructor for a gantry mind.
+-- Constructor for a gantry cluster.
 -- This object manages multiple gantries in a cluster.
-local make_mind = function()
+local make_gantry_cluster = function()
 	local mind = {};
+	
 
 	-- This is information about what sockets
 	--the gantry collective has access to.
@@ -106,4 +107,4 @@ local make_mind = function()
 	return mind;
 end
 
-return make_mind;
+return make_gantry_cluster;

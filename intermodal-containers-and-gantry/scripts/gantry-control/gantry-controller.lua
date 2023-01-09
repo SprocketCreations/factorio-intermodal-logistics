@@ -3,8 +3,16 @@
 -- Constructor for a gantry controller.
 -- This object manages a single gantry in the world.
 -- It can be given tasks and will act on them.
-local make_gantry_controller = function()
+local make_gantry_controller = function(entity)
 	local gantry_controller = {};
+
+	-- Reference to the entity in the world
+	--that represents this gantry crane.
+	gantry_controller.entity = entity;
+
+	-- This is the action performed by the
+	--gantry right now
+	gantry_controller.current_task = {};
 
 	-- Returns a rectangle representing the area
 	--the gantry has access to.

@@ -1,14 +1,11 @@
 local memory = {};
 
 --[[ The tables stored in the memory ]]--
--- This is the action performed by the
---gantry right now
-memory.current_task = {};
 -- This is a collection of all the
---sockets that this gantry can see
+--sockets that this gantry cluster can see
 memory.sockets = {};
 -- This is a collection of all the empty
---sockets that the gantry has access to
+--sockets that the gantry cluster has access to
 memory.empty_sockets = {};
 -- This is a collection of all the
 --sockets that have containers, but meet
