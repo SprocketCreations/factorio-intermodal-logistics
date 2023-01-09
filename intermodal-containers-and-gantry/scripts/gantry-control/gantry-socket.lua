@@ -1,12 +1,13 @@
+local make_conditional = require("gantry-socket-conditions");
 
 -- This is a constructor for a socket.
 -- A socket is a representation of a
 --cradle or a flatbed wagon.
-local make_socket = function ()
+local make_socket = function (entity)
 	local socket = {};
 
 	-- Reference to the socket entity in the world.
-	socket.entity = nil;
+	socket.entity = entity;
 
 	-- Bool. Stores whether this socket has an
 	--intermodal container in it.
@@ -16,7 +17,7 @@ local make_socket = function ()
 	socket.filters = {};
 
 	-- The Conditionals on this socket
-	socket.conditionals = nil;
+	socket.conditionals = make_conditional();
 
 	-- This is the ingame time when a container
 	--was last removed from this socket.
@@ -90,6 +91,4 @@ local make_socket = function ()
 end
 
 
-
-
-return make_socket();
+return make_socket;

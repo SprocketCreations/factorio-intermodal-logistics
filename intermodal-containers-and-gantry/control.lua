@@ -4,6 +4,7 @@ local make_cradle_prototype_object = require("scripts.prototype-objects.cradle")
 local make_flatbed_prototype_object = require("scripts.prototype-objects.flatbed");
 local init_prototypes = require("scripts.init-prototypes");
 local create_cradle = require("scripts.create_cradle");
+local make_socket = require("scripts.gantry-control.gantry-socket");
 -- This is the main control script.
 -- It just sets all the event handlers
 --to functions in other files.
@@ -53,6 +54,34 @@ remote.add_interface("register_prototypes", {
 });
 
 script.on_event({
+	defines.events.on_player_mined_entity,
+	defines.events.on_robot_mined_entity,
+	defines.events.on_entity_died
+}, function (event)
+	local object = gantry_prototype.socket_prototypes[event.entity.name];
+	local switch = {
+		cradle = function()
+			global.sockets[event.entity] = nil;
+		end,
+		flatbed = function()
+			global.sockets[event.entity] = nil;
+		end,
+		cargoship = function()
+			global.sockets[event.entity] = nil;
+		end,
+	};
+
+	if (object ~= nil) then
+		local handler = switch[object.type];
+		if (handler == nil) then
+			error("no handler found for socket type " + object.type);
+		else
+			handler();
+		end
+	end
+end);
+
+script.on_event({
 	defines.events.on_built_entity,
 	defines.events.on_robot_built_entity
 }, function(event)
@@ -75,24 +104,29 @@ script.on_event({
 			-- two steps:
 			-- 1. replace dummy prototype with real prototype
 			local direction = event.created_entity.direction;
+			local new_entity = nil;
 			if (direction == defines.direction.east or direction == defines.direction.west) then
 				--east
-				create_cradle(
+				new_entity = create_cradle(
 					event.created_entity,
 					object.empty_vertical_prototype_name);
 			else
 				--north
-				create_cradle(
+				new_entity = create_cradle(
 					event.created_entity,
 					object.empty_horizontal_prototype_name);
 			end
 			-- 2. create and link socket object
+			local socket = make_socket();
+			global.sockets[new_entity] = socket;
 		end,
 		flatbed = function()
-
+			local socket = make_socket();
+			global.sockets[event.created_entity] = socket;
 		end,
 		cargoship = function()
-
+			local socket = make_socket();
+			global.sockets[event.created_entity] = socket;
 		end,
 	};
 

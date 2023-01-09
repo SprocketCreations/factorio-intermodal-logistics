@@ -13,7 +13,8 @@ local create_cradle = function(dummy, new_prototype)
 	};
 
 	dummy.destroy();
-	surface.create_entity(settings);
+	local entity = surface.create_entity(settings);
+	return entity;
 end
 
 return create_cradle;
