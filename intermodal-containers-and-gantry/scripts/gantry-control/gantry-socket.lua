@@ -28,6 +28,17 @@ local make_socket = function (entity)
 	--waiting to have its container removed.
 	socket.times_skipped = 0;
 
+	-- Sets the filter at the given index.
+	function socket:set_filter(index, filter)
+		self.filters[index] = filter;
+	end
+
+	-- Returns the set filter at a given index.
+	-- Returns nil if there is no filter set.
+	function socket:get_filter(index)
+		return self.filters[index];
+	end
+
 	-- Returns a sorted array of all the items
 	--requested by this socket.
 	function socket:get_filters()

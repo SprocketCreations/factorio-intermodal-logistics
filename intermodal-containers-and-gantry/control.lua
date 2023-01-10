@@ -5,7 +5,7 @@ local make_flatbed_prototype_object = require("scripts.prototype-objects.flatbed
 
 -- Initializers
 local init_globals = require("scripts.globals");
-local remove_interface, build_interface = require("scripts.interface");
+local remove_interface, build_interface = table.unpack(require("scripts.interface"));
 local init_prototype_globals = require("scripts.init-prototype-globals");
 
 -- Events
@@ -74,3 +74,31 @@ script.on_load(function()
 end);
 
 script.on_event(defines.events.on_player_setup_blueprint, on_blueprint_setup);
+
+
+script.on_event(defines.events.on_gui_elem_changed, function (event)
+	if(event.element.parent.name == "gantry_request_filters") then
+		-- Get the socket accociated with the entity we have opened.
+		local socket = global.sockets[game.get_player(event.element.player_index).opened.unit_number];
+		-- Get the filter
+		local value = event.element.elem_value;
+		-- Get the button index
+		local index = event.element.index - event.element.parent.index;
+		-- Set the filter to the new value;
+		socket:set_filter(index, value);
+	end
+end)
+
+script.on_event(defines.events.on_gui_opened, function(event)
+	if(event.gui_type == defines.gui_type.entity) then
+		local socket = global.sockets[event.entity.unit_number];
+		if(socket ~= nil) then
+			local player = game.get_player(event.player_index);
+			-- This line makes me cry
+			local filter_buttons = player.gui.relative.socket_configuration.gantry_filters.invisible_frame.scroll_pane.logistic_background.gantry_request_filters.children;
+			for index, filter_button in pairs(filter_buttons) do
+				filter_button.elem_value = socket:get_filter(index);
+			end
+		end
+	end
+end);

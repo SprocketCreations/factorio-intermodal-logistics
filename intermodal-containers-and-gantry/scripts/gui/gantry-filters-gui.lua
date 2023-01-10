@@ -5,7 +5,7 @@
 local addFilterGUIToElement = function(root)
 	local entity_frame = root.add{
 		type = "frame",
-		name = "filter_outer_frame",
+		name = "gantry_filters",
 		style = "entity_frame_without_right_padding",
 		direction = "vertical",
 	};
@@ -36,7 +36,7 @@ local addFilterGUIToElement = function(root)
 
 	local inset_table = background_frame.add{
 		type = "table",
-		name = "table",
+		name = "gantry_request_filters",
 		style = "filter_slot_table",
 		column_count = 10,
 	};

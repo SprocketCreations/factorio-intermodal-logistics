@@ -26,7 +26,7 @@ local on_build_entity = function(event)
 			end
 			-- 2. create and link socket object
 			local socket = make_socket();
-			global.sockets[new_entity] = socket;
+			global.sockets[new_entity.unit_number] = socket;
 		end,
 		-- This is called if the entity is registered as a flatbed
 		flatbed = function()
