@@ -90,7 +90,7 @@ script.on_event(defines.events.on_gui_elem_changed, function (event)
 		-- Get the filter
 		local value = event.element.elem_value;
 		-- Get the button index
-		local index = event.element.index - event.element.parent.index;
+		local index = event.element.get_index_in_parent();
 		local number_of_buttons = #(event.element.parent.children);
 		-- If this picker is on the last row and we are adding a value
 		if(index > number_of_buttons - 10 and value ~= nil) then
@@ -107,9 +107,19 @@ script.on_event(defines.events.on_gui_opened, function(event)
 		local socket = global.sockets[event.entity.unit_number];
 		if(socket ~= nil) then
 			local player = game.get_player(event.player_index);
-			local filter_buttons = get_gantry_request_filters_gui(player).children;
-			for index, filter_button in pairs(filter_buttons) do
-				filter_button.elem_value = socket:get_filter(index);
+			local gantry_request_filters_gui = get_gantry_request_filters_gui(player);
+			-- Remove all the buttons
+			gantry_request_filters_gui.clear();
+			-- Then re-add two rows
+			add_filter_button_row(gantry_request_filters_gui, 2);
+			for index, filter in pairs(socket.filters) do
+				-- if we have run out of buttons
+				if(index + 10 > #(gantry_request_filters_gui.children)) then
+					-- Add more rows
+					local rows_to_add = math.ceil((index + 10 - #(gantry_request_filters_gui.children)) / 10);
+					add_filter_button_row(gantry_request_filters_gui, rows_to_add);
+				end
+				gantry_request_filters_gui.children[index].elem_value = filter;
 			end
 		end
 	end

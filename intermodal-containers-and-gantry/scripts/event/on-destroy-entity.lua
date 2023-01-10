@@ -7,15 +7,15 @@ local on_destroy_entity = function(event)
 	local switch = {
 		-- This is called if the entity is registered as a cradle
 		cradle = function()
-			global.sockets[event.entity] = nil;
+			global.sockets[event.entity.unit_number] = nil;
 		end,
 		-- This is called if the entity is registered as a flatbed
 		flatbed = function()
-			global.sockets[event.entity] = nil;
+			global.sockets[event.entity.unit_number] = nil;
 		end,
 		-- This is called if the entity is registered as a cargoship
 		cargoship = function()
-			global.sockets[event.entity] = nil;
+			global.sockets[event.entity.unit_number] = nil;
 		end,
 	};
 	-- If the entity is registed as a socket
