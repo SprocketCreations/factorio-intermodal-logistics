@@ -1,3 +1,21 @@
+-- Adds one filter button to the thing
+local add_filter_button = function(table)
+	table.add{
+		type = "choose-elem-button",
+		style = "logistic_slot_button",
+		elem_type = "item",
+		mouse_button_filter = "left",
+	};
+end
+
+-- Adds a number of rows equal to the row_count.
+-- That is ten buttons per row.
+local add_filter_button_row = function(table, row_count)
+	row_count = row_count or 1;
+	for i=1, 10 * row_count, 1 do
+		add_filter_button(table);
+	end
+end
 
 -- Takes in an LuaElementGUI as a root
 --and builds and attaches the filter
@@ -40,26 +58,9 @@ local addFilterGUIToElement = function(root)
 		style = "filter_slot_table",
 		column_count = 10,
 	};
-
-	-- Adds one button
-	local addButton = function()
-		inset_table.add{
-			type = "choose-elem-button",
-			style = "logistic_slot_button",
-			elem_type = "item",
-			mouse_button_filter = "left",
-		};
-	end
-
-	-- Adds ten buttons
-	local addRow = function()
-		for i=1, 10, 1 do
-			addButton();
-		end
-	end
-
-	addRow();
-	addRow();
+	
+	add_filter_button_row(inset_table, 2);
 end
 
-return addFilterGUIToElement;
+
+return {addFilterGUIToElement, add_filter_button_row};

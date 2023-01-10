@@ -1,4 +1,4 @@
-local add_filter_gui = require("scripts.gui.gantry-filters-gui");
+local add_filter_gui = require("scripts.gui.gantry-filters-gui")[1];
 local add_condition_gui = require("scripts.gui.gantry-conditions-gui");
 
 -- Removes the custom interface from the given LuaPlayer.
