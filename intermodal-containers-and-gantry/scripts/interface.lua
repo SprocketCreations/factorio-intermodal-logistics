@@ -1,8 +1,8 @@
 local add_filter_gui = require("scripts.gui.gantry-filters-gui")[1];
-local add_condition_gui = require("scripts.gui.gantry-conditions-gui");
+local add_condition_gui = require("scripts.gui.gantry-conditions-gui")[1];
 
 -- Removes the custom interface from the given LuaPlayer.
-local function remove_interface(player)
+local remove_interface = function(player)
 	local frame = player.gui.relative.socket_configuration;
 	if (frame ~= nil) then
 		frame.destroy();
@@ -10,7 +10,7 @@ local function remove_interface(player)
 end
 
 -- Constructs the custom interface for the given LuaPlayer.
-local function build_interface(player)
+local build_interface = function(player)
 	local frame = player.gui.relative.add {
 		type = "frame",
 		name = "socket_configuration",

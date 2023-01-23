@@ -42,6 +42,10 @@ empty_flatbed_wagon.selected_minimap_representation =
 	scale = 0.5,
 } ]]
 
+empty_flatbed_wagon.joint_distance = 8;-- default 4
+empty_flatbed_wagon.collision_box = {{-0.6, -4.4}, {0.6, 4.4}};-- default {{-0.6, -2.4}, {0.6, 2.4}}
+empty_flatbed_wagon.selection_box = {{-1, -4.703125}, {1, 5.296875}};-- default {{-1, -2.703125}, {1, 3.296875}}
+
 
 -- RotatedSprite pictures
 empty_flatbed_wagon.pictures =

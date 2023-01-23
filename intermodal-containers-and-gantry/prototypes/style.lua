@@ -81,4 +81,24 @@ default.gantry_constant_select_button = {
 	default_font_color = {1, 1, 1},
 	hovered_font_color = {1, 1, 1},
 	clicked_font_color = {1, 1, 1},
-}
+};
+
+default.gantry_add_wait_condition_button = {
+	type = "dropdown_style",
+	button_style = {
+		type = "button_style",
+		parent = "train_schedule_add_wait_condition_button"
+	},
+	icon = {
+		-- No icon
+		width = 1,
+		height = 1,
+	},
+	list_box_style = {
+		type = "list_box_style",
+		vertical_flow_style = {
+			type = "vertical_flow_style",
+			parent = "frame_with_even_paddings",
+		},
+	},
+};

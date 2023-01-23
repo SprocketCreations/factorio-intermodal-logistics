@@ -25,54 +25,54 @@ local make_conditional = function()
 	end
 
 	function conditional:add_time_elapsed_condition(duration)
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "time-elapsed",
-			time = 30,
+			time = duration or 30,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		};
+		});
 	end
 
 	function conditional:add_inactivity_condition(duration)
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "inactivity",
-			time = 5,
+			time = duration or 5,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		};
+		});
 	end
 
 	function conditional:add_full_condition()
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "full-cargo",
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		};
+		});
 	end
 
 	function conditional:add_empty_condition()
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "empty-cargo",
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		};
+		});
 	end
 
 	function conditional:add_item_count_condition(constant)
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "item-count",
 			left_item = "",
 			right_item = "",
@@ -83,12 +83,12 @@ local make_conditional = function()
 				--TODO: implement
 				return false;
 			end
-		};
+		});
 	end
 
 	function conditional:add_circuit_condition(constant)
-		self:add_operator("or");
-		self.conditions.insert {
+		self:add_operator("OR");
+		table.insert(self.conditions, {
 			type = "circuit-condition",
 			left_signal = "",
 			right_signal = "",
@@ -99,16 +99,63 @@ local make_conditional = function()
 				--TODO: implement
 				return false;
 			end
-		};
+		});
+	end
+
+	-- Removes the condition at index.
+	-- So if this is the third condition in the interface, set index to 3
+	function conditional:remove_condition(index)
+		index = index * 2 - 1;
+		-- There is no operator before the first condition to destroy,
+		-- but we do need to destroy the next one.
+		if (index == 1) then
+			table.remove(self.conditions, index + 1);
+		end
+		-- Remove the conditional at the index
+		table.remove(self.conditions, index);
+
+		-- If this is not the first conditional, we need to remove the
+		-- operator before it.
+		if (index ~= 1) then
+			table.remove(self.conditions, index - 1);
+		end
+
+		-- The elements are removed from the list starting at the highest
+		--index and moving down because otherwise the indicies of the elements
+		--would change after calling table.remove().
+	end
+
+	-- Moves the condition at the given index up one slot,
+	-- swapping places with the condition above it.
+	function conditional:move_condition_up(index)
+		if (index == 1) then
+			-- Idk throw an error maybe?
+		else
+			local above_condition = self.conditions[index - 1];
+			self.conditions[index - 1] = self.conditions[index];
+			self.conditions[index] = above_condition;
+		end
+	end
+
+	-- Moves the condition at the given index down one slot,
+	-- swapping places with the condition below it.
+	function conditional:move_condition_down(index)
+		if (index == #(self.conditions)) then
+			-- Idk throw an error maybe?
+		else
+			local below_condition = self.conditions[index + 1];
+			self.conditions[index + 1] = self.conditions[index];
+			self.conditions[index] = below_condition;
+		end
 	end
 
 	-- Valid operator types are "and" and "or"
 	function conditional:add_operator(operator_type)
 		if (#self.conditions ~= 0) then
-			if (operator_type == "and") then
-				self.conditions.insert("and");
-			elseif (operator_type == "or") then
-				self.conditions.insert("or");
+			if (operator_type == "AND") then
+				table.insert(self.conditions, "AND");
+			elseif (operator_type == "OR") then
+				table.insert(self.conditions, "OR");
 			else
 				error("invalid operator passed in to function: " + operator_type);
 			end
@@ -123,7 +170,7 @@ local make_conditional = function()
 	-- if all the operators match, we can just use a simpler algorithm
 	function conditional:meets_conditions(entity)
 		local conditions_copy = {};
-		--loop over the conditionals array and make a shallow
+		--loop over the conditions array and make a shallow
 		--copy of each entry for the next step.
 		for _, condition in self.conditions do
 			--shallow copy the table
@@ -137,7 +184,7 @@ local make_conditional = function()
 			--mess with the array.
 			local condition = conditions_copy[i];
 			-- if this is the next and to process
-			if (condition == "and") then
+			if (condition == "AND") then
 				--get the right element first (and remove it)
 				local right = conditions_copy.remove(i + 1);
 				--get the left element (and remove it)
@@ -158,7 +205,7 @@ local make_conditional = function()
 			--mess with the array.
 			local condition = conditions_copy[i];
 			-- if this is the or and to process
-			if (condition == "or") then
+			if (condition == "OR") then
 				--get the right element first (and remove it)
 				local right = conditions_copy.remove(i + 1);
 				--get the left element (and remove it)
@@ -177,6 +224,8 @@ local make_conditional = function()
 		return conditions_copy[1];
 	end
 
+	-- Conditionals should have the default condition of
+	conditional:add_inactivity_condition(5);
 	return conditional;
 
 end
