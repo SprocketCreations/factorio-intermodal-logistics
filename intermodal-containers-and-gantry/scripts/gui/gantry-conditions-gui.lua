@@ -1,3 +1,6 @@
+
+local prettify_number = require("scripts.util.number-prettier");
+
 local add_comparison_to_condition = function(condition_flow, isAnd, indent_amount)
 	local indent_level = {
 		"train_schedule_comparison_type_frame",
@@ -181,7 +184,7 @@ local add_item_count_condition_label = function(input_flow, condition)
 		flow.add {
 			type = "textfield",
 			name = "gantry_constant_textfield",
-			text = tostring(condition.constant),
+			text = prettify_number(condition.constant),
 			numeric = true;
 			allow_decimal = true;
 			lose_focus_on_confirm = true;
@@ -242,7 +245,7 @@ local add_circuit_condition_label = function(input_flow, condition)
 		flow.add {
 			type = "textfield",
 			name = "gantry_constant_textfield",
-			text = tostring(condition.constant),
+			text = prettify_number(condition.constant),
 			numeric = true;
 			allow_decimal = true;
 			lose_focus_on_confirm = true;
