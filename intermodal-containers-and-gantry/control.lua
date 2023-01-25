@@ -107,8 +107,39 @@ script.on_event(defines.events.on_gui_elem_changed, function(event)
 		end
 		-- Set the filter to the new value;
 		socket:set_filter(index, value);
+		return;
 	end
 	-- Gantry Conditons
+	do
+		local switch = {
+			["gantry_choose_item_button_left"] = function()
+				local player = game.get_player(event.element.player_index);
+				local socket = global.sockets[player.opened.unit_number];
+				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+				local item = event.element.elem_value;
+				local condition = socket.conditionals:get_condition(index);
+				condition.left_item = item;
+			end,
+			["gantry_choose_signal_button_left"] = function()
+				local player = game.get_player(event.element.player_index);
+				local socket = global.sockets[player.opened.unit_number];
+				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+				local signal = event.element.elem_value;
+				local condition = socket.conditionals:get_condition(index);
+				condition.left_signal = signal;
+			end,
+			["gantry_choose_signal_button_right"] = function()
+				local player = game.get_player(event.element.player_index);
+				local socket = global.sockets[player.opened.unit_number];
+				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+				local signal = event.element.elem_value;
+				local condition = socket.conditionals:get_condition(index);
+				condition.right_signal = signal;
+			end,
+		};
+		local func = switch[event.element.name];
+		if (func ~= nil) then func() end
+	end
 end)
 
 script.on_event(defines.events.on_gui_opened, function(event)
@@ -141,35 +172,39 @@ end);
 script.on_event(defines.events.on_gui_selection_state_changed, function(event)
 	if (event.element.name == "gantry_condition_add_dropdown") then
 		local player = game.get_player(event.player_index);
-		do -- Add a button to the gui to reflect the new condition
-			local flow = get_gantry_conditions_flow(player);
-			local switch = {
-				"time-elapsed",
-				"inactivity",
-				"full-cargo",
-				"empty-cargo",
-				"item-count",
-				"circuit-condition",
-			};
-			add_condition_to_element(flow, switch[event.element.selected_index]);
-		end
-		do -- Update the socket with the new condition
-			local socket = global.sockets[player.opened.unit_number];
-			local switch = {
-				socket.conditionals.add_time_elapsed_condition,
-				socket.conditionals.add_inactivity_condition,
-				socket.conditionals.add_full_condition,
-				socket.conditionals.add_empty_condition,
-				socket.conditionals.add_item_count_condition,
-				socket.conditionals.add_circuit_condition,
-			};
-			switch[event.element.selected_index](socket.conditionals);
-		end
+
+		-- Update the socket with the new condition
+		local socket = global.sockets[player.opened.unit_number];
+		local switch = {
+			socket.conditionals.add_inactivity_condition,
+			socket.conditionals.add_time_elapsed_condition,
+			socket.conditionals.add_full_condition,
+			socket.conditionals.add_empty_condition,
+			socket.conditionals.add_item_count_condition,
+			socket.conditionals.add_circuit_condition,
+		};
+		local condition = switch[event.element.selected_index](socket.conditionals);
+		event.element.selected_index = 0;
+		-- Add a button to the gui to reflect the new condition
+		local flow = get_gantry_conditions_flow(player);
+		add_condition_to_element(flow, condition);
+
+	end
+
+	if (event.element.name == "gantry_comparison_operator_dropdown") then
+		local player = game.get_player(event.player_index);
+		local socket = global.sockets[player.opened.unit_number];
+		local conditionals = socket.conditionals;
+
+		local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+		local condition = conditionals:get_condition(index);
+
+		condition.comparitor = event.element.selected_index;
 	end
 end);
 
 script.on_event(defines.events.on_gui_click, function(event)
-	if(event.button == defines.mouse_button_type.left) then
+	if (event.button == defines.mouse_button_type.left) then
 		-- A bunch of data useful in the rest of the function.
 		local player = game.get_player(event.player_index);
 		local entity = player.opened;
@@ -178,9 +213,40 @@ script.on_event(defines.events.on_gui_click, function(event)
 		local condition_root = get_gantry_conditions_flow(player);
 		-- Lua switch statement
 		local switch = {};
+		-- Time elapsed field
+		switch["gantry_time_elapsed_customize_field"] = function()
+			event.element.text = string.sub(event.element.text, 1, #(event.element.text) - 2);
+		end
+		-- Constant text field
+		switch["gantry_constant_textfield"] = function()
+			local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+			local condition = conditionals:get_condition(index);
+
+			event.element.text = tostring(condition.constant);
+		end
+		-- Operator toggle button
+		switch["gantry_comparison_operator_button"] = function()
+			local index = event.element.parent.parent.parent.get_index_in_parent();
+			conditionals:toggle_comparison_operator(index);
+			regenerate_conditions(condition_root, conditionals);
+		end;
+		-- Down button
+		switch["gantry_condition_down_button"] = function()
+			-- Better than Minecraft's gui system at least
+			local parent = event.element.parent.parent.parent.parent;
+			local index = parent.get_index_in_parent();
+			if (index ~= #(parent.parent.children)) then
+				conditionals:move_condition_down(index);
+				regenerate_conditions(condition_root, conditionals);
+			end
+		end;
 		-- Up button
 		switch["gantry_condition_up_button"] = function()
-			
+			local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+			if (index ~= 1) then
+				conditionals:move_condition_up(index);
+				regenerate_conditions(condition_root, conditionals);
+			end
 		end;
 		-- Delete Button
 		switch["gantry_condition_delete_button"] = function()
@@ -189,6 +255,102 @@ script.on_event(defines.events.on_gui_click, function(event)
 			regenerate_conditions(condition_root, conditionals);
 		end;
 
-		switch[event.element.name]();
+		local func = switch[event.element.name];
+		if (func ~= nil) then func(); end
+	end
+end);
+
+
+script.on_event(defines.events.on_gui_checked_state_changed, function(event)
+	if (event.element.name == "gantry_use_constant_checkbox") then
+		local player = game.get_player(event.player_index);
+		local socket = global.sockets[player.opened.unit_number];
+		local conditionals = socket.conditionals;
+
+		local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+		local condition = conditionals:get_condition(index);
+
+		condition.use_constant = not (condition.use_constant);
+
+		local condition_root = get_gantry_conditions_flow(player);
+		regenerate_conditions(condition_root, conditionals);
+	end
+end);
+
+script.on_event(defines.events.on_gui_text_changed, function(event)
+	if (event.element.name == "gantry_time_elapsed_customize_field") then
+		local time = tonumber(event.text);
+
+		local player = game.get_player(event.player_index);
+		local socket = global.sockets[player.opened.unit_number];
+		local conditionals = socket.conditionals;
+
+		local index = event.element.parent.parent.parent.get_index_in_parent();
+		local condition = conditionals:get_condition(index);
+
+		condition.time = time;
+	end
+
+	if (event.element.name == "gantry_constant_textfield") then
+		local player = game.get_player(event.player_index);
+		local socket = global.sockets[player.opened.unit_number];
+		local conditionals = socket.conditionals;
+
+		local index = event.element.parent.parent.parent.parent.get_index_in_parent();
+		local condition = conditionals:get_condition(index);
+
+		condition.constant = event.element.text;
+	end
+end);
+
+script.on_event(defines.events.on_gui_confirmed, function(event)
+	if (event.element.name == "gantry_time_elapsed_customize_field") then
+		event.element.text = event.element.text .. " s";
+	end
+
+	if (event.element.name == "gantry_constant_textfield") then
+		local value = tonumber(event.element.text);
+		local text = "";
+		if (value >= 1000000000) then
+			-- Billion
+			local value = math.floor(value / 100000000) / 10;
+			text = tostring(value);
+			if(value == math.floor(value)) then
+				text = text .. ".0";
+			end
+			text = text .. "G";
+		elseif (value >= 100000000) then
+			-- Hundred Million
+			text = tostring(math.floor(value / 1000000)) .. "M";
+		elseif (value >= 10000000) then
+			-- Ten Million
+			text = tostring(math.floor(value / 1000000)) .. "M";
+		elseif (value >= 1000000) then
+			-- Million
+			local value = math.floor(value / 100000) / 10;
+			text = tostring(value);
+			if(value == math.floor(value)) then
+				text = text .. ".0";
+			end
+			text = text .. "M";
+		elseif (value >= 100000) then
+			-- Hundren Thousand
+			text = tostring(math.floor(value / 1000)) .. "k";
+		elseif (value >= 10000) then
+			-- Ten Thousand
+			text = tostring(math.floor(value / 1000)) .. "k";
+		elseif (value >= 1000) then
+			-- Thousand
+			local value = math.floor(value / 100) / 10;
+			text = tostring(value);
+			if(value == math.floor(value)) then
+				text = text .. ".0";
+			end
+			text = text .. "k";
+		else
+			-- Hundreds and so on
+			text = event.element.text;
+		end
+		event.element.text = text;
 	end
 end);

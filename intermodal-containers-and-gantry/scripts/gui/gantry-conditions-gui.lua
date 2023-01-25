@@ -16,13 +16,14 @@ local add_comparison_to_condition = function(condition_flow, isAnd, indent_amoun
 
 	local comparison_button = sub_frame.add {
 		type = "button",
+		name = "gantry_comparison_operator_button",
 		caption = isAnd and { "gui.and" } or { "gui.or" },
 		style = "train_schedule_comparison_type_button",
 	};
 end
 
-local add_condition = function(fake_train_station_conditions_flow, conditionLabelFunction, comparitor, indent,
-                               constant)
+local add_condition = function(fake_train_station_conditions_flow, condition_label_function, comparitor, indent,
+                               condition)
 	local condition_flow = fake_train_station_conditions_flow.add {
 		type = "flow",
 		direction = "horizontal",
@@ -43,7 +44,7 @@ local add_condition = function(fake_train_station_conditions_flow, conditionLabe
 		style = "gantry_player_input_horizontal_flow",
 	};
 
-	conditionLabelFunction(input_flow, constant or true);
+	condition_label_function(input_flow, condition);
 
 	local reorder_controls_space = condition_frame.add {
 		type = "flow",
@@ -91,11 +92,15 @@ local add_condition = function(fake_train_station_conditions_flow, conditionLabe
 	};
 end
 
-local add_time_passed_condition_label = function(input_flow)
+local add_time_passed_condition_label = function(input_flow, condition)
 	input_flow.add {
-		type = "button",
-		caption = "30 s",
-		style = "train_schedule_condition_time_selection_button",
+		type = "textfield",
+		name = "gantry_time_elapsed_customize_field",
+		text = tostring(condition.time) .. " s",
+		numeric = true;
+		allow_decimal = true;
+		lose_focus_on_confirm = true;
+		style = "gantry_time_selection_textfield",
 	}
 	input_flow.add {
 		type = "label",
@@ -104,11 +109,15 @@ local add_time_passed_condition_label = function(input_flow)
 	};
 end
 
-local add_inactivity_condition_label = function(input_flow)
+local add_inactivity_condition_label = function(input_flow, condition)
 	input_flow.add {
-		type = "button",
-		caption = "5 s",
-		style = "train_schedule_condition_time_selection_button",
+		type = "textfield",
+		name = "gantry_time_elapsed_customize_field",
+		text = tostring(condition.time) .. " s",
+		style = "gantry_time_selection_textfield",
+		numeric = true;
+		allow_decimal = true;
+		lose_focus_on_confirm = true;
 	}
 	input_flow.add {
 		type = "label",
@@ -117,7 +126,7 @@ local add_inactivity_condition_label = function(input_flow)
 	};
 end
 
-local add_full_cargo_condition_label = function(input_flow)
+local add_full_cargo_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "label",
 		caption = { "gui.full-cargo" },
@@ -125,7 +134,7 @@ local add_full_cargo_condition_label = function(input_flow)
 	};
 end
 
-local add_empty_cargo_condition_label = function(input_flow)
+local add_empty_cargo_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "label",
 		caption = { "gui.empty-cargo" },
@@ -133,7 +142,7 @@ local add_empty_cargo_condition_label = function(input_flow)
 	};
 end
 
-local add_item_count_condition_label = function(input_flow, constant)
+local add_item_count_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "label",
 		caption = { "gui.item-count" },
@@ -149,11 +158,14 @@ local add_item_count_condition_label = function(input_flow, constant)
 	};
 	flow.add {
 		type = "choose-elem-button",
-		elem_type = "signal",
+		name = "gantry_choose_item_button_left",
+		elem_type = "item",
+		item = condition.left_item,
 		style = "train_schedule_item_select_button",
 	};
 	flow.add {
 		type = "drop-down",
+		name = "gantry_comparison_operator_dropdown",
 		style = "circuit_condition_comparator_dropdown",
 		items = {
 			">",
@@ -163,28 +175,35 @@ local add_item_count_condition_label = function(input_flow, constant)
 			"≤",
 			"≠"
 		},
-		selected_index = 2,
+		selected_index = condition.comparitor,
 	};
-	if (constant) then
+	if (condition.use_constant) then
 		flow.add {
-			type = "button",
-			caption = "23",
-			style = "gantry_constant_select_button"
+			type = "textfield",
+			name = "gantry_constant_textfield",
+			text = tostring(condition.constant),
+			numeric = true;
+			allow_decimal = true;
+			lose_focus_on_confirm = true;
+			style = "gantry_constant_textfield"
 		};
 	else
 		flow.add {
 			type = "choose-elem-button",
+			name = "gantry_choose_signal_button_right",
 			elem_type = "signal",
+			signal = condition.right_signal,
 			style = "train_schedule_item_select_button",
 		};
 	end
 	flow.add {
 		type = "checkbox",
-		state = constant,
+		name = "gantry_use_constant_checkbox",
+		state = condition.use_constant,
 	};
 end
 
-local add_circuit_condition_label = function(input_flow, constant)
+local add_circuit_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "label",
 		caption = { "gui.circuit-condition" },
@@ -200,11 +219,14 @@ local add_circuit_condition_label = function(input_flow, constant)
 	};
 	flow.add {
 		type = "choose-elem-button",
+		name = "gantry_choose_signal_button_left",
 		elem_type = "signal",
+		signal = condition.left_signal,
 		style = "train_schedule_item_select_button",
 	};
 	flow.add {
 		type = "drop-down",
+		name = "gantry_comparison_operator_dropdown",
 		style = "circuit_condition_comparator_dropdown",
 		items = {
 			">",
@@ -214,24 +236,31 @@ local add_circuit_condition_label = function(input_flow, constant)
 			"≤",
 			"≠"
 		},
-		selected_index = 2,
+		selected_index = condition.comparitor,
 	};
-	if (constant) then
+	if (condition.use_constant) then
 		flow.add {
-			type = "button",
-			caption = "23",
-			style = "gantry_constant_select_button"
+			type = "textfield",
+			name = "gantry_constant_textfield",
+			text = tostring(condition.constant),
+			numeric = true;
+			allow_decimal = true;
+			lose_focus_on_confirm = true;
+			style = "gantry_constant_textfield",
 		};
 	else
 		flow.add {
 			type = "choose-elem-button",
+			name = "gantry_choose_signal_button_right",
 			elem_type = "signal",
+			signal = condition.right_signal,
 			style = "train_schedule_item_select_button",
 		};
 	end
 	flow.add {
 		type = "checkbox",
-		state = constant,
+		name = "gantry_use_constant_checkbox",
+		state = condition.use_constant,
 	};
 end
 
@@ -307,15 +336,15 @@ end
 local add_condition_to_element = function(element, condition, comparator, indent)
 	comparator = comparator or "OR";
 	indent = indent or 1;
-	local switch = {};
-	switch["time-elapsed"] = add_time_passed_condition_label;
-	switch["inactivity"] = add_inactivity_condition_label;
-	switch["full-cargo"] = add_full_cargo_condition_label;
-	switch["empty-cargo"] = add_empty_cargo_condition_label;
-	switch["item-count"] = add_item_count_condition_label;
-	switch["circuit-condition"] = add_circuit_condition_label;
-
-	add_condition(element, switch[condition], comparator, indent)
+	local switch = {
+		["time-elapsed"] = add_time_passed_condition_label;
+		["inactivity"] = add_inactivity_condition_label;
+		["full-cargo"] = add_full_cargo_condition_label;
+		["empty-cargo"] = add_empty_cargo_condition_label;
+		["item-count"] = add_item_count_condition_label;
+		["circuit-condition"] = add_circuit_condition_label;
+	};
+	add_condition(element, switch[condition.type], comparator, indent, condition)
 end
 
 local regenerate_conditions = function(fake_train_station_conditions_flow, conditionals)
@@ -324,14 +353,18 @@ local regenerate_conditions = function(fake_train_station_conditions_flow, condi
 	element.clear();
 
 	local same_indent = conditionals:do_all_operators_match();
-	local indent = same_indent and 0 or 1;
+	local indent = same_indent and 1 or 2;
 
 	local conditions = conditionals.conditions;
 	if (#conditions > 0) then
 		for i = 1, #conditions, 2 do
 			local condition = conditions[i];
-			local comparator = conditions[i - 1];
-			add_condition_to_element(element, condition.type, comparator);
+			local comparator = i == 1 and "OR" or conditions[i - 1];
+			local element_indent = indent;
+			if ((not same_indent) and comparator == "OR") then
+				element_indent = element_indent + 1;
+			end
+			add_condition_to_element(element, condition, comparator, element_indent);
 		end
 	end
 

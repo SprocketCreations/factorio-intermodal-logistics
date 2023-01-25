@@ -1,4 +1,3 @@
-
 local default = data.raw["gui-style"]["default"]
 
 
@@ -47,15 +46,14 @@ default.container_invisible_frame_with_title_without_left_padding = {
 default.gantry_player_input_horizontal_flow = {
 	type = "horizontal_flow_style",
 	parent = "player_input_horizontal_flow",
-	width = 192,
-	natural_width = 192,
+	width = 204,
 };
 
 default.gantry_reorder_vertical_flow = {
 	type = "vertical_flow_style",
 	right_margin = -4,
 	left_margin = 0,
-	width = 60,
+	right_padding = 8;
 	horizontal_align = "left",
 };
 
@@ -67,20 +65,22 @@ default.gantry_reorder_horizontal_flow = {
 default.gantry_reorder_button = {
 	type = "button_style",
 	parent = "train_schedule_delete_button",
-	size = {22, 28},
+	size = { 16, 28 },
+	left_padding = -5;
+	right_padding = -5;
 	default_graphical_set =
 	{
-		base = {position = {68, 0}, corner_size = 8},
-		shadow = {position = {440, 24}, corner_size = 8, draw_type = "outer"},
+		base = { position = { 68, 0 }, corner_size = 8 },
+		shadow = { position = { 440, 24 }, corner_size = 8, draw_type = "outer" },
 	}
 };
 
 default.gantry_constant_select_button = {
 	type = "button_style",
 	parent = "train_schedule_item_select_button",
-	default_font_color = {1, 1, 1},
-	hovered_font_color = {1, 1, 1},
-	clicked_font_color = {1, 1, 1},
+	default_font_color = { 1, 1, 1 },
+	hovered_font_color = { 1, 1, 1 },
+	clicked_font_color = { 1, 1, 1 },
 };
 
 default.gantry_add_wait_condition_button = {
@@ -101,4 +101,63 @@ default.gantry_add_wait_condition_button = {
 			parent = "frame_with_even_paddings",
 		},
 	},
+};
+
+default.gantry_time_selection_textfield = {
+	type = "textbox_style",
+
+	width = 84,
+	minimal_height = 28,
+	horizontal_align = "center",
+	vertical_align = "center",
+	top_padding = 0,
+	bottom_padding = 0,
+	left_padding = 8;
+	right_padding = 8;
+};
+
+default.gantry_constant_textfield = {
+	type = "textbox_style",
+
+	padding = -3,
+	height = 28,
+	width = 40;
+
+	horizontal_align = "center",
+	vertical_align = "center",
+
+	horizontally_stretchable = "on",
+
+	font = "default-semibold",
+	font_color = { 1, 1, 1 },
+	default_font_color = { 1, 1, 1 },
+	hovered_font_color = { 1, 1, 1 },
+	clicked_font_color = { 1, 1, 1 },
+
+	default_background = {
+		base = { border = 4, position = { 2, 738 }, size = 76 },
+		shadow =
+		{
+			position = { 378, 103 },
+			corner_size = 16,
+			top_outer_border_shift = 4,
+			bottom_outer_border_shift = -4,
+			left_outer_border_shift = 4,
+			right_outer_border_shift = -4,
+			draw_type = "outer"
+		}
+	};
+	active_background = {
+		base = { border = 4, position = { 162, 738 }, size = 76 },
+		shadow =
+		{
+			position = { 378, 103 },
+			corner_size = 16,
+			top_outer_border_shift = 4,
+			bottom_outer_border_shift = -4,
+			left_outer_border_shift = 4,
+			right_outer_border_shift = -4,
+			draw_type = "outer"
+		}
+	};
 };

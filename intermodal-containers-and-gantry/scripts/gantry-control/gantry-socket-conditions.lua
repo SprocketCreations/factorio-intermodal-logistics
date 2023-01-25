@@ -26,80 +26,92 @@ local make_conditional = function()
 
 	function conditional:add_time_elapsed_condition(duration)
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "time-elapsed",
 			time = duration or 30,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	function conditional:add_inactivity_condition(duration)
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "inactivity",
 			time = duration or 5,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	function conditional:add_full_condition()
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "full-cargo",
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	function conditional:add_empty_condition()
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "empty-cargo",
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	function conditional:add_item_count_condition(constant)
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "item-count",
-			left_item = "",
-			right_item = "",
-			comparitor = ">",
+			left_item = nil,
+			right_signal = nil,
+			comparitor = 2,
 			constant = 0,
 			use_constant = true,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	function conditional:add_circuit_condition(constant)
 		self:add_operator("OR");
-		table.insert(self.conditions, {
+		local condition = {
 			type = "circuit-condition",
-			left_signal = "",
-			right_signal = "",
-			comparitor = ">",
+			left_signal = nil,
+			right_signal = nil,
+			comparitor = 2,
 			constant = 0,
 			use_constant = true,
 			meets_condition = function(self, entity)
 				--TODO: implement
 				return false;
 			end
-		});
+		};
+		table.insert(self.conditions, condition);
+		return condition;
 	end
 
 	-- Removes the condition at index.
@@ -128,11 +140,12 @@ local make_conditional = function()
 	-- Moves the condition at the given index up one slot,
 	-- swapping places with the condition above it.
 	function conditional:move_condition_up(index)
+		index = index * 2 - 1;
 		if (index == 1) then
 			-- Idk throw an error maybe?
 		else
-			local above_condition = self.conditions[index - 1];
-			self.conditions[index - 1] = self.conditions[index];
+			local above_condition = self.conditions[index - 2];
+			self.conditions[index - 2] = self.conditions[index];
 			self.conditions[index] = above_condition;
 		end
 	end
@@ -140,11 +153,12 @@ local make_conditional = function()
 	-- Moves the condition at the given index down one slot,
 	-- swapping places with the condition below it.
 	function conditional:move_condition_down(index)
+		index = index * 2 - 1;
 		if (index == #(self.conditions)) then
 			-- Idk throw an error maybe?
 		else
-			local below_condition = self.conditions[index + 1];
-			self.conditions[index + 1] = self.conditions[index];
+			local below_condition = self.conditions[index + 2];
+			self.conditions[index + 2] = self.conditions[index];
 			self.conditions[index] = below_condition;
 		end
 	end
@@ -160,6 +174,22 @@ local make_conditional = function()
 				error("invalid operator passed in to function: " + operator_type);
 			end
 		end
+	end
+
+	-- Index is the nth condition. There will never be a condition 1.
+	function conditional:toggle_comparison_operator(index)
+		index = index * 2 - 2;
+		local swap = {
+			["AND"] = "OR",
+			["OR"] = "AND",
+		};
+		self.conditions[index] = swap[self.conditions[index]];
+	end
+
+	-- Returns the condition table for the nth condition
+	function conditional:get_condition(index)
+		index = index * 2 - 1;
+		return self.conditions[index];
 	end
 
 	-- Checks a given entity to see if it meets
