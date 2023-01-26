@@ -1,7 +1,21 @@
+local vertical_picture = {
+	filename = "__intermodal-containers-and-gantry__/graphics/entity/rail/vertical.png";
+	priority = "low";
+	size = { 128, 128 };
+	scale = 0.25;
+};
+local horizontal_picture = {
+	filename = "__intermodal-containers-and-gantry__/graphics/entity/rail/horizontal.png";
+	priority = "low";
+	size = { 128, 128 };
+	scale = 0.25;
+};
+
 data:extend {
 	{
 		-- Entity
-		icon = "todo";
+		icon = "__intermodal-containers-and-gantry__/graphics/entity/rail/horizontal.png";
+		icon_size = 128;
 
 		collision_box = { { -0.4, -0.4 }, { 0.4, 0.4 } };
 		collision_mask = { "item-layer", "object-layer", "water-tile" };
@@ -11,21 +25,23 @@ data:extend {
 		tile_width = 1;
 		tile_height = 1;
 
-		placeable_by = {
-			item = "gantry-rail";
-			count = 1;
-		};
-		minable = {
-			mining_time = 0.2;
-			result = "gantry-rail";
-		};
+		-- placeable_by = {
+		-- 	item = "gantry-rail";
+		-- 	count = 1;
+		-- };
+		-- minable = {
+		-- 	mining_time = 0.2;
+		-- 	result = "gantry-rail";
+		-- };
 
-		pictures = {
-			variation_count = 4;
-			repeat_count = 1; --<== What is this
-			line_length = 4;
+		render_layer = "floor";
+		secondary_draw_order = 25;
 
-			filename = "__intermodal-containers-and-gantry__/graphics/entity/rail/rail.png"
+		picture = {
+			north = vertical_picture;
+			east = horizontal_picture;
+			south = vertical_picture;
+			west = horizontal_picture;
 		};
 
 		selection_priority = 20;
