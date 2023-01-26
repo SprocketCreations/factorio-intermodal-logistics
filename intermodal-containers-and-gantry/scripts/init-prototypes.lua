@@ -2,7 +2,7 @@
 -- Uses the remote interface tool to register the prototypes to the system.
 -- If this function is called more than once without first clearing the globals
 --tables, it will insert duplicate elements. This may not be a problem.
-local init_prototypes = function()
+function init_prototypes()
 	--[[ GANTRY REGISTRY ]]
 	remote.call("register_prototypes", "register_gantry", {
 		{
@@ -31,5 +31,3 @@ local init_prototypes = function()
 		},
 	});
 end
-
-return init_prototypes;

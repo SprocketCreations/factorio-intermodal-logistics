@@ -1,6 +1,6 @@
 -- Called whenever an entity is removed from the world,
 -- either via mining or death.
-local on_destroy_entity = function(event)
+function on_destroy_entity(event)
 	-- We access the global lookup table to check if the destroyed entity is registered as a socket.
 	local object = gantry_prototype.socket_prototypes[event.entity.name];
 	-- Lua does not have switch statements to my knowledge.
@@ -29,5 +29,3 @@ local on_destroy_entity = function(event)
 		end
 	end
 end
-
-return on_destroy_entity;

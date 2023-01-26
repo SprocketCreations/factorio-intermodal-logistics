@@ -1,5 +1,5 @@
 -- Creates an object to manage the different related prototypes of a cradle entity
-local make_cradle_prototype_object = function(settings_array)
+function make_cradle_prototype_object(settings_array)
 	for _, settings in pairs(settings_array) do
 		local object = {};
 

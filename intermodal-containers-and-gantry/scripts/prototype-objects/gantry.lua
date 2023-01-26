@@ -1,6 +1,6 @@
 
 -- Creates an object to manage the different related prototypes of a gantry entity
-local make_gantry_prototype_object = function(settings_array)
+function make_gantry_prototype_object(settings_array)
 	for _, settings in pairs(settings_array) do
 		local object = {};
 

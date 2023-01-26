@@ -1,6 +1,6 @@
 
 -- Called when the player creates a new blueprint by dragging the selection tool.
-local on_blueprint_setup = function (event)
+function on_blueprint_setup(event)
 	local player = game.get_player(event.player_index);
 	-- Get a list of the entities that the player blueprinted
 	local entities = player.cursor_stack.get_blueprint_entities();
@@ -43,5 +43,3 @@ local on_blueprint_setup = function (event)
 		blueprint.set_blueprint_entities(entities);
 	end
 end
-
-return on_blueprint_setup;

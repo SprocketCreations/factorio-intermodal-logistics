@@ -1,12 +1,12 @@
 
-local add_filter_button_row = require("scripts.gui.gantry-filters-gui")[2];
-local regenerate_conditions = require("scripts.gui.gantry-conditions-gui")[3];
+require("scripts.gui.gantry-filters-gui");
+require("scripts.gui.gantry-conditions-gui");
 
-local get_gui_stuff = require("scripts.util.get-gui-stuff");
-local get_gantry_request_filters_gui = require("scripts.util.get-gantry-request-filters-gui");
-local get_gantry_conditions_flow = require("scripts.util.get-gantry-conditions-flow");
+require("scripts.util.get-gui-stuff");
+require("scripts.util.get-gantry-request-filters-gui");
+require("scripts.util.get-gantry-conditions-flow");
 
-local on_gui_opened = function(event)
+function on_gui_opened(event)
 	if (event.gui_type == defines.gui_type.entity) then
 		-- Test if this is one of the socket entities
 		if (true) then
@@ -34,5 +34,3 @@ local on_gui_opened = function(event)
 		end
 	end
 end
-
-return on_gui_opened;

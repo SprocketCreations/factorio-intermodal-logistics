@@ -1,8 +1,8 @@
-local make_socket = require("scripts.gantry-control.gantry-socket");
-local create_cradle = require("scripts.create-cradle");
+require("scripts.gantry-control.gantry-socket");
+require("scripts.create-cradle");
 
 -- Called whenever an entity is created in the world.
-local on_build_entity = function(event)
+function on_build_entity(event)
 	-- We access the global lookup table to check if the created entity is registered as a socket.
 	local object = gantry_prototype.socket_prototypes[event.created_entity.name];
 	-- Lua does not have switch statements to my knowledge.
@@ -51,5 +51,3 @@ local on_build_entity = function(event)
 		end
 	end
 end
-
-return on_build_entity;

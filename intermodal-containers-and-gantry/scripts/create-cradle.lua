@@ -1,5 +1,5 @@
 -- Replaces a dummy cradle with its real version
-local create_cradle = function(dummy, new_prototype)
+function create_cradle(dummy, new_prototype)
 	local surface = dummy.surface;
 	local settings = {
 		name = new_prototype,
@@ -16,5 +16,3 @@ local create_cradle = function(dummy, new_prototype)
 	local entity = surface.create_entity(settings);
 	return entity;
 end
-
-return create_cradle;

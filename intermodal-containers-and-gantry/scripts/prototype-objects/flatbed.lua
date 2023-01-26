@@ -1,5 +1,5 @@
 -- Creates an object to manage the different related prototypes of a flatbed wagon entity
-local make_flatbed_prototype_object = function(settings_array)
+function make_flatbed_prototype_object(settings_array)
 	for _, settings in pairs(settings_array) do
 		local object = {};
 

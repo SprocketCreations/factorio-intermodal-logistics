@@ -1,5 +1,6 @@
 
-local prettify_number = require("scripts.util.number-prettier");
+require("scripts.util.number-prettier");
+--require();
 
 local add_comparison_to_condition = function(condition_flow, isAnd, indent_amount)
 	local indent_level = {
@@ -270,7 +271,7 @@ end
 -- Takes in an LuaElementGUI as a root
 --and builds and attaches the conditions
 --gui to it as a child.
-local add_condition_gui_to_element = function(root)
+function add_condition_gui_to_element(root)
 	local entity_frame = root.add {
 		type = "frame",
 		name = "conditions_outer_frame",
@@ -336,7 +337,7 @@ local add_condition_gui_to_element = function(root)
 	};
 end
 
-local add_condition_to_element = function(element, condition, comparator, indent)
+function add_condition_to_element(element, condition, comparator, indent)
 	comparator = comparator or "OR";
 	indent = indent or 1;
 	local switch = {
@@ -350,12 +351,12 @@ local add_condition_to_element = function(element, condition, comparator, indent
 	add_condition(element, switch[condition.type], comparator, indent, condition)
 end
 
-local regenerate_conditions = function(fake_train_station_conditions_flow, conditionals)
+function regenerate_conditions(fake_train_station_conditions_flow, conditionals)
 	local element = fake_train_station_conditions_flow;
 	-- Remove all the condition boxes
 	element.clear();
 
-	local same_indent = conditionals:do_all_operators_match();
+	local same_indent = conditional_do_all_operators_match(conditionals);
 	local indent = same_indent and 1 or 2;
 
 	local conditions = conditionals.conditions;
@@ -373,8 +374,3 @@ local regenerate_conditions = function(fake_train_station_conditions_flow, condi
 
 end
 
-return {
-	add_condition_gui_to_element,
-	add_condition_to_element,
-	regenerate_conditions,
-};

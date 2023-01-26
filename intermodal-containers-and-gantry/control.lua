@@ -1,24 +1,24 @@
 -- Remotes
-local make_gantry_prototype_object = require("scripts.prototype-objects.gantry");
-local make_cradle_prototype_object = require("scripts.prototype-objects.cradle");
-local make_flatbed_prototype_object = require("scripts.prototype-objects.flatbed");
+require("scripts.prototype-objects.gantry");
+require("scripts.prototype-objects.cradle");
+require("scripts.prototype-objects.flatbed");
 
 -- Initializers
-local init_globals = require("scripts.globals");
-local remove_interface, build_interface = table.unpack(require("scripts.interface"));
-local init_prototype_globals = require("scripts.init-prototype-globals");
+require("scripts.globals");
+require("scripts.interface");
+require("scripts.init-prototype-globals");
 
 -- Events
-local on_build_entity = require("scripts.event.on-build-entity");
-local on_destroy_entity = require("scripts.event.on-destroy-entity");
-local on_blueprint_setup = require("scripts.event.on-blueprint-setup");
-local on_gui_text_changed = require("scripts.event.on-gui-text-changed");
-local on_gui_confirmed = require("scripts.event.on-gui-confirmed");
-local on_gui_checked_state_changed = require("scripts.event.on-gui-checked-state-changed");
-local on_gui_elem_changed = require("scripts.event.on-gui-elem-changed");
-local on_gui_opened = require("scripts.event.on-gui-opened");
-local on_gui_selection_state_changed = require("scripts.event.on-gui-selection-state-changed");
-local on_gui_click = require("scripts.event.on-gui-click");
+require("scripts.event.on-build-entity");
+require("scripts.event.on-destroy-entity");
+require("scripts.event.on-blueprint-setup");
+require("scripts.event.on-gui-text-changed");
+require("scripts.event.on-gui-confirmed");
+require("scripts.event.on-gui-checked-state-changed");
+require("scripts.event.on-gui-elem-changed");
+require("scripts.event.on-gui-opened");
+require("scripts.event.on-gui-selection-state-changed");
+require("scripts.event.on-gui-click");
 
 -- This is the main control script.
 -- It just sets all the event handlers

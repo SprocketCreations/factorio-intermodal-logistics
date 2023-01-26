@@ -1,10 +1,10 @@
 
-local regenerate_conditions = require("scripts.gui.gantry-conditions-gui")[3];
+require("scripts.gui.gantry-conditions-gui");
 
-local get_gui_stuff = require("scripts.util.get-gui-stuff");
-local get_gantry_conditions_flow = require("scripts.util.get-gantry-conditions-flow");
+require("scripts.util.get-gui-stuff");
+require("scripts.util.get-gantry-conditions-flow");
 
-local on_gui_click = function(event)
+function on_gui_click(event)
 	if (event.button == defines.mouse_button_type.left) then
 		-- A bunch of data useful in the rest of the function.
 		local player, socket, conditionals = get_gui_stuff(event.player_index);
@@ -18,14 +18,14 @@ local on_gui_click = function(event)
 		-- Constant text field
 		switch["gantry_constant_textfield"] = function()
 			local index = event.element.parent.parent.parent.parent.get_index_in_parent();
-			local condition = conditionals:get_condition(index);
+			local condition = conditional_get_condition(conditionals, index);
 
 			event.element.text = tostring(condition.constant);
 		end
 		-- Operator toggle button
 		switch["gantry_comparison_operator_button"] = function()
 			local index = event.element.parent.parent.parent.get_index_in_parent();
-			conditionals:toggle_comparison_operator(index);
+			conditional_toggle_comparison_operator(conditionals, index);
 			regenerate_conditions(condition_root, conditionals);
 		end;
 		-- Down button
@@ -34,7 +34,7 @@ local on_gui_click = function(event)
 			local parent = event.element.parent.parent.parent.parent;
 			local index = parent.get_index_in_parent();
 			if (index ~= #(parent.parent.children)) then
-				conditionals:move_condition_down(index);
+				conditional_move_condition_down(conditionals, index);
 				regenerate_conditions(condition_root, conditionals);
 			end
 		end;
@@ -42,14 +42,14 @@ local on_gui_click = function(event)
 		switch["gantry_condition_up_button"] = function()
 			local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 			if (index ~= 1) then
-				conditionals:move_condition_up(index);
+				conditional_move_condition_up(conditionals, index);
 				regenerate_conditions(condition_root, conditionals);
 			end
 		end;
 		-- Delete Button
 		switch["gantry_condition_delete_button"] = function()
 			local index = event.element.parent.parent.get_index_in_parent();
-			conditionals:remove_condition(index);
+			conditional_remove_condition(conditionals, index);
 			regenerate_conditions(condition_root, conditionals);
 		end;
 
@@ -57,5 +57,3 @@ local on_gui_click = function(event)
 		if (func ~= nil) then func(); end
 	end
 end
-
-return on_gui_click;

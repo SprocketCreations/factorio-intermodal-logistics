@@ -1,9 +1,9 @@
 
-local add_filter_button_row = require("scripts.gui.gantry-filters-gui")[2];
-local get_gui_stuff = require("scripts.util.get-gui-stuff");
-local get_gantry_request_filters_gui = require("scripts.util.get-gantry-request-filters-gui");
+require("scripts.gui.gantry-filters-gui");
+require("scripts.util.get-gui-stuff");
+require("scripts.util.get-gantry-request-filters-gui");
 
-local on_gui_elem_changed = function(event)
+function on_gui_elem_changed(event)
 	-- Gantry Filters
 	if (event.element.parent.name == "gantry_request_filters") then
 		local player, socket, conditionals = get_gui_stuff(event.player_index);
@@ -18,7 +18,7 @@ local on_gui_elem_changed = function(event)
 			add_filter_button_row(get_gantry_request_filters_gui(player), 1);
 		end
 		-- Set the filter to the new value;
-		socket:set_filter(index, value);
+		socket_set_filter(socket, index, value);
 		return;
 	end
 	-- Gantry Conditons
@@ -28,21 +28,21 @@ local on_gui_elem_changed = function(event)
 				local player, socket, conditionals = get_gui_stuff(event.player_index);
 				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 				local item = event.element.elem_value;
-				local condition = conditionals:get_condition(index);
+				local condition = conditional_get_condition(conditionals, index);
 				condition.left_item = item;
 			end,
 			["gantry_choose_signal_button_left"] = function()
 				local player, socket, conditionals = get_gui_stuff(event.player_index);
 				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 				local signal = event.element.elem_value;
-				local condition = conditionals:get_condition(index);
+				local condition = conditional_get_condition(conditionals, index);
 				condition.left_signal = signal;
 			end,
 			["gantry_choose_signal_button_right"] = function()
 				local player, socket, conditionals = get_gui_stuff(event.player_index);
 				local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 				local signal = event.element.elem_value;
-				local condition = conditionals:get_condition(index);
+				local condition = conditional_get_condition(conditionals, index);
 				condition.right_signal = signal;
 			end,
 		};
@@ -50,5 +50,3 @@ local on_gui_elem_changed = function(event)
 		if (func ~= nil) then func() end
 	end
 end
-
-return on_gui_elem_changed;

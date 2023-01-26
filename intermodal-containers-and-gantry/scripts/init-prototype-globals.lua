@@ -1,6 +1,6 @@
-local init_prototypes = require("scripts.init-prototypes");
+require("scripts.init-prototypes");
 
-local function init_prototype_globals()
+function init_prototype_globals()
 	gantry_prototype = {
 		socket_prototypes = {},
 		gantry_prototypes = {},
@@ -9,5 +9,3 @@ local function init_prototype_globals()
 	};
 	init_prototypes();
 end
-
-return init_prototype_globals;

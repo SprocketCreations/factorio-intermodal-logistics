@@ -2,7 +2,7 @@
 --[[
 	converts a number into a string with the decimals chopped off and letters added to indicate k/M/G
 ]]
-local prettify_number = function(number)
+function prettify_number(number)
 	local value = number;
 	local text = "";
 	if (value >= 1000000000) then
@@ -48,4 +48,3 @@ local prettify_number = function(number)
 	return text;
 end
 
-return prettify_number;

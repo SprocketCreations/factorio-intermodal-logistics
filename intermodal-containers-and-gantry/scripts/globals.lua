@@ -1,7 +1,7 @@
 
 -- Globals init function.
 -- This will leave existing tables intact.
-return function()
+function init_globals()
 	if(global.gantry_clusters == nil) then
 		-- Array containing every gantry cluster
 		global.gantry_clusters = {};
