@@ -9,8 +9,15 @@ require("scripts.util.get-gantry-conditions-flow");
 function on_gui_opened(event)
 	if (event.gui_type == defines.gui_type.entity) then
 		-- Test if this is one of the socket entities
-		if (true) then
+		if (gantry_prototype.socket_prototypes[event.entity.name] == nil) then
+			-- It is not a socket
+			-- Make gui invisible
+			game.get_player(event.player_index).gui.relative.socket_configuration.visible = false;
+		else -- It is a socket
 			local player, socket, conditionals = get_gui_stuff(event.player_index);
+
+			-- Make gui visible
+			player.gui.relative.socket_configuration.visible = true;
 
 			-- Gantry Filters
 			local gantry_request_filters_gui = get_gantry_request_filters_gui(player);

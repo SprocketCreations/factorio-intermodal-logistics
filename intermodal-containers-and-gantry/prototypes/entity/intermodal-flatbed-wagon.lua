@@ -2,7 +2,7 @@
 -- Copy the vanilla cargo wagon
 local intermodal_flatbed_wagon = util.table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]);
 -- Override everything I need to
-intermodal_flatbed_wagon.name = "intermodal_flatbed_wagon";
+intermodal_flatbed_wagon.name = "intermodal-flatbed-wagon";
 -- intermodal_flatbed_wagon.icon = "__intermodal-containers-and-gantry__/graphics/icon/empty-flatbed-wagon.png";
 intermodal_flatbed_wagon.icon_size = 32;
 intermodal_flatbed_wagon.icon_mipmaps = 1;

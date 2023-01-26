@@ -26,8 +26,8 @@ function init_prototypes()
 	--[[ FLATBED REGISTRY ]]
 	remote.call("register_prototypes", "register_flatbed", {
 		{
-			empty_prototype_name = "flatbed_wagon",
-			containered_prototype_name = "intermodal_flatbed_wagon",
+			empty_prototype_name = "flatbed-wagon",
+			containered_prototype_name = "intermodal-flatbed-wagon",
 		},
 	});
 end

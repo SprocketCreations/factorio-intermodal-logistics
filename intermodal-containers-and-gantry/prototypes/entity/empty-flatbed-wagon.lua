@@ -1,11 +1,11 @@
 -- Copy the vanilla cargo wagon
 local empty_flatbed_wagon = util.table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]);
 -- Override everything I need to
-empty_flatbed_wagon.name = "flatbed_wagon";
+empty_flatbed_wagon.name = "flatbed-wagon";
 -- empty_flatbed_wagon.icon = "__intermodal-containers-and-gantry__/graphics/icon/empty-flatbed-wagon.png";
 -- empty_flatbed_wagon.icon_size = 32;
 -- empty_flatbed_wagon.icon_mipmaps = 1;
-empty_flatbed_wagon.inventory_size = 0;
+empty_flatbed_wagon.inventory_size = 1;
 empty_flatbed_wagon.minable =
 {
 	mining_time = 1,

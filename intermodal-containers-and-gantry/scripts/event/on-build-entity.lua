@@ -9,20 +9,22 @@ function on_build_entity(event)
 	local switch = {
 		-- This is called if the entity is registered as a cradle
 		cradle = function()
-			-- The cradle has two steps:
-			-- 1. replace dummy prototype with real prototype
-			local direction = event.created_entity.direction;
-			local new_entity = nil;
-			if (direction == defines.direction.east or direction == defines.direction.west) then
-				--east
-				new_entity = create_cradle(
-					event.created_entity,
-					object.empty_vertical_prototype_name);
-			else
-				--north
-				new_entity = create_cradle(
-					event.created_entity,
-					object.empty_horizontal_prototype_name);
+			local new_entity = event.created_entity;
+			if (object.placement_dummy_prototype_name == event.created_entity.name) then
+				-- The cradle has two steps:
+				-- 1. replace dummy prototype with real prototype
+				local direction = event.created_entity.direction;
+				if (direction == defines.direction.east or direction == defines.direction.west) then
+					--east
+					new_entity = create_cradle(
+						event.created_entity,
+						object.empty_vertical_prototype_name);
+				else
+					--north
+					new_entity = create_cradle(
+						event.created_entity,
+						object.empty_horizontal_prototype_name);
+				end
 			end
 			-- 2. create and link socket object
 			local socket = make_socket();
@@ -31,12 +33,12 @@ function on_build_entity(event)
 		-- This is called if the entity is registered as a flatbed
 		flatbed = function()
 			local socket = make_socket();
-			global.sockets[event.created_entity] = socket;
+			global.sockets[event.created_entity.unit_number] = socket;
 		end,
 		-- This is called if the entity is registered as a cargoship
 		cargoship = function()
 			local socket = make_socket();
-			global.sockets[event.created_entity] = socket;
+			global.sockets[event.created_entity.unit_number] = socket;
 		end,
 	};
 	-- If the entity is registed as a socket
@@ -45,8 +47,8 @@ function on_build_entity(event)
 		local handler = switch[object.type];
 		if (handler == nil) then
 			error("no handler found for socket type " + object.type);
-		-- Only actually run the handler if this is the dummy.
-		elseif (object.placement_dummy_prototype_name == event.created_entity.name) then
+			-- Only actually run the handler if this is the dummy.
+		else
 			handler();
 		end
 	end
