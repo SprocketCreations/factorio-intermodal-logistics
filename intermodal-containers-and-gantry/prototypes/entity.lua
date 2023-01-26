@@ -1,4 +1,5 @@
 
+-- require("entity.rail");
 require("entity.empty-flatbed-wagon");
 require("entity.intermodal-flatbed-wagon");
 
