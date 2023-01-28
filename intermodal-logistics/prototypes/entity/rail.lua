@@ -1,11 +1,11 @@
 local vertical_picture = {
-	filename = "__intermodal-containers-and-gantry__/graphics/entity/rail/vertical.png";
+	filename = "__intermodal-logistics__/graphics/entity/rail/vertical.png";
 	priority = "low";
 	size = { 128, 128 };
 	scale = 0.25;
 };
 local horizontal_picture = {
-	filename = "__intermodal-containers-and-gantry__/graphics/entity/rail/horizontal.png";
+	filename = "__intermodal-logistics__/graphics/entity/rail/horizontal.png";
 	priority = "low";
 	size = { 128, 128 };
 	scale = 0.25;
@@ -14,7 +14,7 @@ local horizontal_picture = {
 data:extend {
 	{
 		-- Entity
-		icon = "__intermodal-containers-and-gantry__/graphics/entity/rail/horizontal.png";
+		icon = "__intermodal-logistics__/graphics/entity/rail/horizontal.png";
 		icon_size = 128;
 
 		collision_box = { { -0.4, -0.4 }, { 0.4, 0.4 } };

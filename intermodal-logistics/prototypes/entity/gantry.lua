@@ -2,14 +2,14 @@ local gantry =
 {
 	-- Simple entity with owner
 	picture = { sheet = {
-		filename = "__intermodal-containers-and-gantry__/graphics/entity/gantry/small-gantry.png";
+		filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry.png";
 		frames = 4;
 		size = { 416, 320 };
 		scale = 2;
 		shift = { 0, -5 };
 	} };
 	-- Entity
-	icon = "__intermodal-containers-and-gantry__/graphics/icon/small-gantry.png";
+	icon = "__intermodal-logistics__/graphics/icon/small-gantry.png";
 	icon_size = 64;
 
 
@@ -39,7 +39,7 @@ local small_gantry = {
 	-- Name to use to refer to the entity prototype
 	name = "small-gantry",
 	-- Icons
-	icon = "__intermodal-containers-and-gantry__/graphics/icon/small-gantry.png";
+	icon = "__intermodal-logistics__/graphics/icon/small-gantry.png";
 	icon_size = 64;
 
 	flags = {
@@ -76,4 +76,4 @@ local small_gantry = {
 	}
 }
 
-gantry:extend({ small_gantry });
+intermodal_logistics:extend({ small_gantry });

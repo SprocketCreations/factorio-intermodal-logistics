@@ -10,7 +10,7 @@ data:extend {
 		energy_required = 2.5,
 
 		icon_size = 32,
-		icon = "__intermodal-containers-and-gantry__/graphics/icon/intermodal-cradle.png",
+		icon = "__intermodal-logistics__/graphics/icon/intermodal-cradle.png",
 		result = "intermodal_cradle",
 
 		-- Base

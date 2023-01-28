@@ -1,12 +1,12 @@
 local pictures = {
 	horizontal = {
-		filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
 		priority = "very-low",
 		width = 256,
 		height = 128,
 		hr_version =
 		{
-			filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
 			priority = "very-low",
 			width = 256,
 			height = 128,
@@ -14,13 +14,13 @@ local pictures = {
 		},
 	},
 	empty_horizontal = {
-		filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
 		priority = "very-low",
 		width = 256,
 		height = 128,
 		hr_version =
 		{
-			filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
 			priority = "very-low",
 			width = 256,
 			height = 128,
@@ -28,13 +28,13 @@ local pictures = {
 		},
 	},
 	empty_vertical = {
-		filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
 		priority = "very-low",
 		width = 128,
 		height = 256,
 		hr_version =
 		{
-			filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
 			priority = "very-low",
 			width = 128,
 			height = 256,
@@ -42,13 +42,13 @@ local pictures = {
 		},
 	},
 	vertical = {
-		filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
 		priority = "very-low",
 		width = 128,
 		height = 256,
 		hr_version =
 		{
-			filename = "__intermodal-containers-and-gantry__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
 			priority = "very-low",
 			width = 128,
 			height = 256,
@@ -59,7 +59,7 @@ local pictures = {
 
 
 local icon_size = 32;
-local icon = "__intermodal-containers-and-gantry__/graphics/icon/intermodal-cradle.png";
+local icon = "__intermodal-logistics__/graphics/icon/intermodal-cradle.png";
 
 local flags = { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" };
 local empty_flags = { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
@@ -196,9 +196,9 @@ data:extend {
 		icon_size = icon_size,
 		icon = icon,
 		flags = empty_flags,
-		-- build_sound = { filename = "__intermodal-containers-and-gantry__/sounds/cradle-place.ogg" },
-		-- open_sound =  { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-open.ogg" },
-		-- close_sound = { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-close.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
+		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = horizontal_collision_box,
 		selection_box = horizontal_selection_box,
 		shooting_cursor_size = 50,
@@ -233,9 +233,9 @@ data:extend {
 		icon_size = icon_size,
 		icon = icon,
 		flags = flags,
-		-- build_sound = { filename = "__intermodal-containers-and-gantry__/sounds/cradle-place.ogg" },
-		-- open_sound =  { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-open.ogg" },
-		-- close_sound = { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-close.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
+		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = horizontal_collision_box,
 		selection_box = horizontal_selection_box,
 		shooting_cursor_size = 50,
@@ -270,9 +270,9 @@ data:extend {
 		icon_size = icon_size,
 		icon = icon,
 		flags = empty_flags,
-		-- build_sound = { filename = "__intermodal-containers-and-gantry__/sounds/cradle-place.ogg" },
-		-- open_sound =  { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-open.ogg" },
-		-- close_sound = { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-close.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
+		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = vertical_collision_box,
 		selection_box = vertical_selection_box,
 		shooting_cursor_size = 50,
@@ -307,9 +307,9 @@ data:extend {
 		icon_size = icon_size,
 		icon = icon,
 		flags = flags,
-		-- build_sound = { filename = "__intermodal-containers-and-gantry__/sounds/cradle-place.ogg" },
-		-- open_sound =  { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-open.ogg" },
-		-- close_sound = { filename = "__intermodal-containers-and-gantry__/sounds/intermodal-close.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
+		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = vertical_collision_box,
 		selection_box = vertical_selection_box,
 		shooting_cursor_size = 50,

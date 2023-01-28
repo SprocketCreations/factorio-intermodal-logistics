@@ -2,7 +2,7 @@
 local up_arrow = {
 	type = "sprite",
 	name = "up_arrow_sprite",
-	filename = "__intermodal-containers-and-gantry__/graphics/mip/up-arrow.png",
+	filename = "__intermodal-logistics__/graphics/mip/up-arrow.png",
 	priority = "extra-high-no-scale",
 	flags = {"gui-icon"},
 	size = {32, 32},
@@ -12,7 +12,7 @@ local up_arrow = {
 local up_arrow_dark = {
 	type = "sprite",
 	name = "up_arrow_dark_sprite",
-	filename = "__intermodal-containers-and-gantry__/graphics/mip/up-arrow-dark.png",
+	filename = "__intermodal-logistics__/graphics/mip/up-arrow-dark.png",
 	priority = "extra-high-no-scale",
 	flags = {"gui-icon"},
 	size = {32, 32},
