@@ -13,9 +13,9 @@ function condition_meets_condition(condition, entity)
 		["circuit-condition"] = function()
 		end;
 	};
-	local func = switch[condition.type];
-	if (func ~= nil) then
-		return func();
+	local handler = switch[condition.type];
+	if (handler ~= nil) then
+		return handler();
 	end
 	return false;
 end
@@ -80,7 +80,7 @@ function conditional_add_item_count_condition(conditional, constant)
 		type = "item-count",
 		left_item = nil,
 		right_signal = nil,
-		comparitor = 2,
+		comparator = 2,
 		constant = 0,
 		use_constant = true,
 	};
@@ -94,7 +94,7 @@ function conditional_add_circuit_condition(conditional, constant)
 		type = "circuit-condition",
 		left_signal = nil,
 		right_signal = nil,
-		comparitor = 2,
+		comparator = 2,
 		constant = 0,
 		use_constant = true,
 

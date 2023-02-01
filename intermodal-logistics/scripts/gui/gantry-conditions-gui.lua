@@ -26,15 +26,15 @@ local add_comparison_to_condition = function(condition_flow, isAnd, indent_amoun
 	};
 end
 
-local add_condition = function(fake_train_station_conditions_flow, condition_label_function, comparitor, indent,
+local add_condition = function(fake_train_station_conditions_flow, condition_label_function, comparator, indent,
                                condition)
 	local condition_flow = fake_train_station_conditions_flow.add {
 		type = "flow",
 		direction = "horizontal",
 	};
 
-	if (comparitor and #(fake_train_station_conditions_flow.children) > 1) then
-		add_comparison_to_condition(condition_flow, comparitor == "AND", indent);
+	if (comparator and #(fake_train_station_conditions_flow.children) > 1) then
+		add_comparison_to_condition(condition_flow, comparator == "AND", indent);
 	end
 
 	local condition_frame = condition_flow.add {
@@ -179,7 +179,7 @@ local add_item_count_condition_label = function(input_flow, condition)
 			"≤",
 			"≠"
 		},
-		selected_index = condition.comparitor,
+		selected_index = condition.comparator,
 	};
 	if (condition.use_constant) then
 		flow.add {
@@ -240,7 +240,7 @@ local add_circuit_condition_label = function(input_flow, condition)
 			"≤",
 			"≠"
 		},
-		selected_index = condition.comparitor,
+		selected_index = condition.comparator,
 	};
 	if (condition.use_constant) then
 		flow.add {

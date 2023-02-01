@@ -6,7 +6,7 @@ empty_flatbed_wagon.name = "flatbed-wagon";
 -- empty_flatbed_wagon.icon_size = 32;
 -- empty_flatbed_wagon.icon_mipmaps = 1;
 empty_flatbed_wagon.inventory_size = 1;
-empty_flatbed_wagon.minable =
+empty_flatbed_wagon.mineable =
 {
 	mining_time = 1,
 	result = "iron-plate"

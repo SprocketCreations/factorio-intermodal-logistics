@@ -30,6 +30,6 @@ function on_gui_selection_state_changed(event)
 		local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 		local condition = conditional_get_condition(conditionals, index);
 
-		condition.comparitor = event.element.selected_index;
+		condition.comparator = event.element.selected_index;
 	end
 end;

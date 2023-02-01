@@ -9,7 +9,7 @@ function on_blueprint_setup(event)
 	-- We will keep track of all the cradles here
 	local cradle_entities = {};
 	-- Check each entity
-	for _, entity in pairs(entities) do
+	for _, entity in ipairs(entities) do
 		-- Object is a ref to the registry entry for this entity, if this entity is in the registry
 		local object = gantry_prototype.socket_prototypes[entity.name];
 		if (object ~= nil) then

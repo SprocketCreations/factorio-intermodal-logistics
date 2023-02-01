@@ -4,9 +4,15 @@ require("scripts.create-cradle");
 -- Called whenever an entity is created in the world.
 function on_build_entity(event)
 	-- We access the global lookup table to check if the created entity is registered as a socket.
-	local object = gantry_prototype.socket_prototypes[event.created_entity.name];
+	local object = intermodal_logistics:get_data(event.created_entity.name);
+	if (object == nil) then
+		object = gantry_prototype.socket_prototypes[event.created_entity.name];
+	end
 	-- Lua does not have switch statements to my knowledge.
 	local switch = {
+		gantry = function()
+			global.gantries = create_gantry(event.created_entity, object);
+		end,
 		-- This is called if the entity is registered as a cradle
 		cradle = function()
 			local new_entity = event.created_entity;

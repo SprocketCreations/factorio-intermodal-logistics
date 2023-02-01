@@ -20,6 +20,27 @@ require("scripts.event.on-gui-opened");
 require("scripts.event.on-gui-selection-state-changed");
 require("scripts.event.on-gui-click");
 
+require("scripts.util.parse-table");
+
+function intermodal_logistics:get_data(prototype)
+	return self.gantries[prototype] or
+		self.cradles[prototype] or
+		self.flatbeds[prototype];
+end
+
+local parse_data_pipeline = function()
+	intermodal_logistics = parse_table(game.item_subgroup_prototypes["gantry-data-control-pipeline"].order);
+	for i = 1, #(intermodal_logistics.gantries), 1 do
+		intermodal_logistics.gantries[i].type = "gantry";
+	end
+	for i = 1, #(intermodal_logistics.cradles), 1 do
+		intermodal_logistics.cradles[i].type = "cradle";
+	end
+	for i = 1, #(intermodal_logistics.flatbeds), 1 do
+		intermodal_logistics.flatbeds[i].type = "flatbed";
+	end
+end
+
 -- This is the main control script.
 -- It just sets all the event handlers
 --to functions in other files.
@@ -52,7 +73,7 @@ commands.add_command("reload_globals", nil, function(command)
 end)
 
 script.on_configuration_changed(function(data)
-	if (data.mod_changes["intermodal-containers-and-ganty"]) then
+	if (data.mod_changes["intermodal-logistics"]) then
 		for _, player in pairs(game.players) do
 			remove_interface(player);
 			build_interface(player);
@@ -63,6 +84,7 @@ end)
 script.on_init(function()
 	init_globals();
 	init_prototype_globals();
+	parse_data_pipeline();
 	for _, player in pairs(game.players) do
 		build_interface(player);
 	end
@@ -77,6 +99,7 @@ end);
 
 script.on_load(function()
 	init_prototype_globals();
+	parse_data_pipeline();
 end);
 
 -- Blueprint stuff

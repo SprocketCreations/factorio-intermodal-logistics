@@ -1,18 +1,18 @@
 -- Replaces a dummy cradle with its real version
-function create_cradle(dummy, new_prototype)
-	local surface = dummy.surface;
+function create_cradle(entity_to_replace, new_prototype)
+	local surface = entity_to_replace.surface;
 	local settings = {
 		name = new_prototype,
-		position = dummy.position,
-		force = dummy.force,
-		player = dummy.last_user.index,
+		position = entity_to_replace.position,
+		force = entity_to_replace.force,
+		player = entity_to_replace.last_user.index,
 		raise_built = true,
 		create_build_effect_smoke = false,
 		spawn_decorations = false,
 		move_stuck_players = true,
 	};
 
-	dummy.destroy();
+	entity_to_replace.destroy();
 	local entity = surface.create_entity(settings);
 	return entity;
 end

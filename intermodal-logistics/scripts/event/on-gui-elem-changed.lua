@@ -46,7 +46,7 @@ function on_gui_elem_changed(event)
 				condition.right_signal = signal;
 			end,
 		};
-		local func = switch[event.element.name];
-		if (func ~= nil) then func() end
+		local handler = switch[event.element.name];
+		if (handler ~= nil) then handler() end
 	end
 end

@@ -43,7 +43,7 @@ end
 
 -- Returns true if this socket has a container.
 function socket_has_container(socket)
-	return socket.containered;
+	return socket.has_container;
 end
 
 -- Returns a sorted array of all the items
@@ -81,7 +81,7 @@ function make_socket(entity)
 
 	-- Bool. Stores whether this socket has an
 	--intermodal container in it.
-	socket.containered = false;
+	socket.has_container = false;
 
 	-- Collection of all the filters set on this socket.
 	socket.filters = {};
