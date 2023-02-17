@@ -2,7 +2,7 @@ local number_characters = { ["-"] = 4, ["0"] = 4, ["1"] = 4, ["2"] = 4, ["3"] = 
 	["7"] = 4, ["8"] = 4, ["9"] = 4, ["."] = 4 };
 
 local letter_at = function(s, i)
-	return s:sub(i, i);
+	return string.sub(s, i, i);
 end
 
 local is_table = function(character)
@@ -49,22 +49,22 @@ local is_nil = function(character)
 end
 
 local parse_string = function(s, starting_index)
-	local str = { '"' };
+	local str = {};
 	local last_character_was_escape = false;
-	for i = starting_index, #s, 1 do
+	for i = starting_index + 1, #s, 1 do
 		local letter = letter_at(s, i);
-		table.insert(str, letter);
 		if (last_character_was_escape) then
 			last_character_was_escape = false;
 		else
 			if (letter == '"') then
-				return i, table.concat(str);
+				return table.concat(str), i;
 			elseif (letter == "\\") then
 				last_character_was_escape = true;
 			end
 		end
+		table.insert(str, letter);
 	end
-	return (#s) + 1, table.concat(str);
+	return table.concat(str), (#s);
 end
 
 local parse_number = function(s, starting_index)
@@ -72,72 +72,87 @@ local parse_number = function(s, starting_index)
 		local letter = letter_at(s, i);
 		if (number_characters[letter] ~= 4) then
 			-- We have reached the end of the number.
-			return i, tonumber(string.sub(s, starting_index, i - 1));
+			return tonumber(string.sub(s, starting_index, i - 1)), i - 1;
 		end
 	end
-	return (#s) + 1, tonumber(string.sub(s, starting_index, #s));
+	return tonumber(string.sub(s, starting_index, #s)), (#s);
 end
 
 local parse_true = function(s, starting_index)
 	for i = starting_index, #s, 1 do
-		if (i == 4) then
-			return i + 1, true;
+		if (i == starting_index + 4) then
+			return true, i;
 		end
 	end
-	return (#s) + 1, true;
+	return true, (#s);
 end
 
 local parse_false = function(s, starting_index)
 	for i = starting_index, #s, 1 do
-		if (i == 5) then
-			return i + 1, false;
+		if (i == starting_index + 5) then
+			return false, i;
 		end
 	end
-	return (#s) + 1, false;
+	return false, (#s);
 end
 
 local parse_nil = function(s, starting_index)
 	for i = starting_index, #s, 1 do
-		if (i == 3) then
-			return i + 1, nil;
+		if (i == starting_index + 3) then
+			return nil, i;
 		end
 	end
-	return (#s) + 1, nil;
+	return nil, (#s);
 end
 
 function parse_table(s, starting_index)
-	starting_index = starting_index or 1;
+	if(starting_index == nil) then
+		starting_index = 1;
+		for i = starting_index, #s, 1 do
+			starting_index = i;
+			local letter = letter_at(s, i)
+			if(is_table(letter)) then
+				break;
+			end
+		end
+		if(starting_index == #s) then
+			error("Malformed jsnot string. Could not find '{'");
+		end
+	end
+	starting_index = starting_index + 1;
 	local searching_for_key = true;
 	local t = {};
 	local key;
-	for i = starting_index, #s, 1 do
+	local i = starting_index;
+	while (i <= #s) do
 		local letter = letter_at(s, i);
 		local out = nil;
 		if (letter == "}") then
-			return i, t;
+			return t, i;
 		elseif (is_colon(letter)) then
 			searching_for_key = false;
 		elseif (is_comma(letter)) then
 			searching_for_key = true;
 		elseif (is_string(letter)) then
-			i, out = parse_string(s, i);
+			out, i = parse_string(s, i);
 		elseif (is_number(letter)) then
-			i, out = parse_number(s, i);
+			out, i = parse_number(s, i);
 		elseif (is_true(letter)) then
-			i, out = parse_true(s, i);
+			out, i = parse_true(s, i);
 		elseif (is_false(letter)) then
-			i, out = parse_false(s, i);
+			out, i = parse_false(s, i);
 		elseif (is_nil(letter)) then
-			i, out = parse_nil(s, i);
+			out, i = parse_nil(s, i );
 		elseif (is_table(letter)) then
-			i, out = parse_table(s, i);
+			out, i = parse_table(s, i );
 		end
 		if (searching_for_key) then
 			key = out;
 		else
 			t[key] = out;
 		end
+		i = i + 1;
 	end
 
-	return (#s) + 1, t;
+	return t, (#s) + 1;
 end

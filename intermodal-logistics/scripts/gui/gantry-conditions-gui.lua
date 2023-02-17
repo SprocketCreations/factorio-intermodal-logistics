@@ -99,7 +99,7 @@ end
 local add_time_passed_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "textfield",
-		name = "gantry_time_elapsed_customize_field",
+		name = "gantry_time_passed_customize_field",
 		text = tostring(condition.time) .. " s",
 		numeric = true;
 		allow_decimal = true;
@@ -116,7 +116,7 @@ end
 local add_inactivity_condition_label = function(input_flow, condition)
 	input_flow.add {
 		type = "textfield",
-		name = "gantry_time_elapsed_customize_field",
+		name = "gantry_time_passed_customize_field",
 		text = tostring(condition.time) .. " s",
 		style = "gantry_time_selection_textfield",
 		numeric = true;
@@ -341,7 +341,7 @@ function add_condition_to_element(element, condition, comparator, indent)
 	comparator = comparator or "OR";
 	indent = indent or 1;
 	local switch = {
-		["time-elapsed"] = add_time_passed_condition_label;
+		["time-passed"] = add_time_passed_condition_label;
 		["inactivity"] = add_inactivity_condition_label;
 		["full-cargo"] = add_full_cargo_condition_label;
 		["empty-cargo"] = add_empty_cargo_condition_label;
@@ -356,7 +356,7 @@ function regenerate_conditions(fake_train_station_conditions_flow, conditionals)
 	-- Remove all the condition boxes
 	element.clear();
 
-	local same_indent = conditional_do_all_operators_match(conditionals);
+	local same_indent = socket_conditional_do_all_operators_match(conditionals);
 	local indent = same_indent and 1 or 2;
 
 	local conditions = conditionals.conditions;

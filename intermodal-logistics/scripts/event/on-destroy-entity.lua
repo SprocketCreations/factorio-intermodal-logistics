@@ -5,18 +5,22 @@ function on_destroy_entity(event)
 	local object = gantry_prototype.socket_prototypes[event.entity.name];
 	-- Lua does not have switch statements to my knowledge.
 	local switch = {
+		gantry = function()
+			gantry_controller_destroy(global.gantries[event.entity.unit_number]);
+			global.gantries[event.entity.unit_number] = nil;
+		end;
 		-- This is called if the entity is registered as a cradle
 		cradle = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end,
+		end;
 		-- This is called if the entity is registered as a flatbed
 		flatbed = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end,
+		end;
 		-- This is called if the entity is registered as a cargoship
 		cargoship = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end,
+		end;
 	};
 	-- If the entity is registed as a socket
 	if (object ~= nil) then

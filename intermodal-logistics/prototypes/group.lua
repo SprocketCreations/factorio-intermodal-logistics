@@ -9,7 +9,19 @@ data:extend {
 	{
 		group = "logistics",--"gantry-group",
 		type = "item-subgroup",
+		name = "gantry",
+		order = "gl",
+	},
+	{
+		group = "logistics",--"gantry-group",
+		type = "item-subgroup",
+		name = "gantry-truck",
+		order = "gn",
+	},
+	{
+		group = "logistics",--"gantry-group",
+		type = "item-subgroup",
 		name = "cradle",
-		order = "gc",
+		order = "gw",
 	}
 };

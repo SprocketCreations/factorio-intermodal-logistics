@@ -11,8 +11,8 @@ function on_gui_click(event)
 		local condition_root = get_gantry_conditions_flow(player);
 		-- Lua switch statement
 		local switch = {};
-		-- Time elapsed field
-		switch["gantry_time_elapsed_customize_field"] = function()
+		-- Time passed field
+		switch["gantry_time_passed_customize_field"] = function()
 			event.element.text = string.sub(event.element.text, 1, #(event.element.text) - 2);
 		end
 		-- Constant text field
@@ -25,7 +25,7 @@ function on_gui_click(event)
 		-- Operator toggle button
 		switch["gantry_comparison_operator_button"] = function()
 			local index = event.element.parent.parent.parent.get_index_in_parent();
-			conditional_toggle_comparison_operator(conditionals, index);
+			socket_conditional_toggle_comparison_operator(conditionals, index);
 			regenerate_conditions(condition_root, conditionals);
 		end;
 		-- Down button
@@ -34,7 +34,7 @@ function on_gui_click(event)
 			local parent = event.element.parent.parent.parent.parent;
 			local index = parent.get_index_in_parent();
 			if (index ~= #(parent.parent.children)) then
-				conditional_move_condition_down(conditionals, index);
+				socket_conditional_move_condition_down(conditionals, index);
 				regenerate_conditions(condition_root, conditionals);
 			end
 		end;
@@ -42,14 +42,14 @@ function on_gui_click(event)
 		switch["gantry_condition_up_button"] = function()
 			local index = event.element.parent.parent.parent.parent.get_index_in_parent();
 			if (index ~= 1) then
-				conditional_move_condition_up(conditionals, index);
+				socket_conditional_move_condition_up(conditionals, index);
 				regenerate_conditions(condition_root, conditionals);
 			end
 		end;
 		-- Delete Button
 		switch["gantry_condition_delete_button"] = function()
 			local index = event.element.parent.parent.get_index_in_parent();
-			conditional_remove_condition(conditionals, index);
+			socket_conditional_remove_condition(conditionals, index);
 			regenerate_conditions(condition_root, conditionals);
 		end;
 

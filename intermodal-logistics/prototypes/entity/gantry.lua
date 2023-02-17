@@ -1,51 +1,29 @@
-local gantry =
-{
-	-- Simple entity with owner
-	picture = { sheet = {
-		filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry.png";
-		frames = 4;
-		size = { 416, 320 };
-		scale = 2;
-		shift = { 0, -5 };
-	} };
-	-- Entity
-	icon = "__intermodal-logistics__/graphics/icon/small-gantry.png";
-	icon_size = 64;
-
-
-	collision_box = { { -4.8, -4.8 }, { 4.8, 4.8 } };
-	selection_box = { { -4, -4 }, { 4, 4 } };
-
-	drawing_box = { { -13, -13 }, { 13, 13 } };
-
-	flags = {
-		"placeable-neutral",
-		"player-creation",
-		"no-automated-item-removal",
-		"no-automated-item-insertion",
-	};
-
-	-- Base
-	name = "small-gantry";
-	type = "simple-entity-with-owner";
+local truck_north_picture = {
+	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/truck-north.png";
+	size = { 352, 164 };
+	scale = 1;
+	shift = { 0.0, -2.277687221765518 };
 };
-data:extend({ gantry });
+local truck_east_picture = {
+	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/truck-east.png";
+	size = { 64, 368 };
+	scale = 1;
+	shift = { 0.0, -2.0007780268788338 };
+};
+
 
 -- The truck being used
 -- This is a simple entity.
 local truck = {
 	picture = {
-		sheet = {
-			filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/truck.png";
-			frames = 4;
-			size = { 200, 200 };
-			scale = 1;
-			shift = { 0, 0 };
-		}
+		north = truck_north_picture;
+		east = truck_east_picture;
+		south = truck_north_picture;
+		west = truck_east_picture;
 	};
 	type = 'truck';
 	-- The truck's collider
-	collision_box = { { -3.8, -0.3 }, { 3.8, 0.3 } };
+	collision_box = { { -4.8, -0.3 }, { 4.8, 0.3 } };
 	drawing_box = { { -4, -0.5 }, { 4, 0.5 } };
 };
 
@@ -57,6 +35,9 @@ local small_gantry = {
 	-- Icons
 	icon = "__intermodal-logistics__/graphics/icon/small-gantry.png";
 	icon_size = 64;
+
+	-- specify how far the trolly can move. minimum and maximum
+	work_width = { -3, 6 };
 
 	flags = {
 		"placeable-neutral",
@@ -76,14 +57,9 @@ local small_gantry = {
 				{
 					truck = truck;
 					-- Table for how the trucks are positioned relative to the gantry
-					positions = {
-						{ 0, -4 },
-						{ 0, 4 }
-					};
+					positions = { { 0, -4.5 }, { 0, 4.5 } };
 				},
 			};
-			-- specify how far the trolly can move. minimum and maximum
-			work_width = { -3, 6 };
 			--use to specify how the player can select the gantry to mine it.
 			selection_box = { { -4, -5 }, { 4, 7 } };
 			-- use to specify this rotation's drawing_box.
@@ -92,30 +68,64 @@ local small_gantry = {
 			-- All the pictures to be used with the rotations
 			pictures = {
 				filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/north.png";
-				size = { 416, 320 };
-				scale = 2;
-				shift = { 0, -5 };
+				size = { 320, 512 };
+				scale = 1;
+				shift = { 0.0, -6.647111415863037 };
 			};
 		};
 		-- If west is not specified, east will be used.
 		east = {
 			ground_trucks = {
 				{
-					collision_box = { { -4, -0.5 }, { 4, 0.5 } };
-					positions = { { 0, -4 }, { 0, 4 } };
+					truck = truck;
+					positions = { { -4.5, 0 }, { 4.5, 0 } };
 				},
 			};
-			work_width = { -3, -6 };
 			selection_box = { { -5, -4 }, { 7, 4 } };
 			drawing_box = { { -5, -4 }, { 7, 4 } };
 			pictures = {
 				filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/east.png";
-				size = { 416, 320 };
-				scale = 2;
-				shift = { 0, -5 };
+				size = { 672, 280 };
+				scale = 1;
+				shift = { 2.2977801337838173, -4.611127525568008 };
 			}
+		};
+		south = {
+			-- Array of ground contact trucks.
+			ground_trucks = {
+				{
+					truck = truck;
+					-- Table for how the trucks are positioned relative to the gantry
+					positions = { { 0, -4.5 }, { 0, 4.5 } };
+				},
+			};
+			selection_box = { { -4, -5 }, { 4, 7 } };
+			drawing_box = { { -4, -5 }, { 4, 7 } };
+
+			pictures = {
+				filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/south.png";
+				size = { 320, 512 };
+				scale = 1;
+				shift = { 0.0, -3.3590643405914307 };
+			};
+		};
+		west = {
+			ground_trucks = {
+				{
+					truck = truck;
+					positions = { { -4.5, 0 }, { 4.5, 0 } };
+				},
+			};
+			selection_box = { { -5, -4 }, { 7, 4 } };
+			drawing_box = { { -5, -4 }, { 7, 4 } };
+			pictures = {
+				filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/west.png";
+				size = { 672, 280 };
+				scale = 1;
+				shift = { -2.2977816984057426, -4.611127525568008 };
+			};
 		};
 	};
 }
 
-intermodal_logistics:extend { small_gantry };
+intermodal_logistics_data:extend { small_gantry };

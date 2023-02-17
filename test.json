@@ -1,0 +1,73 @@
+{
+	"gantries": {
+		"small-gantry": {
+			"placement_dummy_prototype": "small-gantry",
+			"rotations": {
+				"north": {
+					"prototype": "small-gantry-north",
+					"work_width": {
+						1: -3,
+						2: 6
+					},
+					"trucks": {
+						1: {
+							"prototype": "small-gantry-truck-1",
+							"positions": {
+								1: {
+									1: 0,
+									2: -4
+								},
+								2: {
+									1: 0,
+									2: 4
+								}
+							}
+						}
+					}
+				},
+				"east": {
+					"prototype": "small-gantry-east",
+					"work_width": {
+						1: -3,
+						2: -6
+					},
+					"trucks": {
+						1: {
+							"prototype": "small-gantry-truck-1",
+							"positions": {
+								1: {
+									1: 0,
+									2: -4
+								},
+								2: {
+									1: 0,
+									2: 4
+								}
+							}
+						}
+					}
+				},
+				"south": {
+					"prototype": "small-gantry-west",
+					"work_width": {
+						1: -3,
+						2: 6
+					},
+					"trucks": {
+						1: {
+							"prototype": "small-gantry-truck-1",
+							"positions": {
+								1: {
+									1: 0,
+									2: -4
+								},
+								2: {
+									1: 0,
+									2: 4
+								}
+							}
+						}
+					}
+				},
+				"west": {
+					"prototype": "small-gantry-south","work_wi

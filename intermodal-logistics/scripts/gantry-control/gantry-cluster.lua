@@ -2,19 +2,22 @@ require("gantry-memory");
 require("gantry-task");
 require("gantry-socket");
 
--- Generates a series of tasks and calls callback on each one.
--- If callback likes the task it can return true.
--- If callback returns false, a new task will be generated.
--- If a task is accepted, findTask will return true.
--- If no task is accepted, findTask will return false.
-function mind_find_task(mind, callback)
+---Generates a series of tasks and calls callback on each one.
+---@param cluster GantryCluster self.
+---@param callback fun(task: GantryTask): boolean Called for each task generated. Return true to accept the task.
+---@return boolean # Whether a task was accepted or not.
+function gantry_cluster_find_task(cluster, callback)
 	-- For each waiting empty socket
-	for _, empty_socket in mind.memory.empty_sockets do
+	for _, empty_socket in ipairs(cluster.empty_sockets) do
 		-- Check each finished socket
-		for _, finished_socket in mind.memory.finished_sockets do
+		for _, finished_socket in ipairs(cluster.finished_sockets) do
 			-- TODO: Upgrade this to use hashing.
-			-- Function that checks if a filter and item array match.
-			-- The two collections MUST be sorted alphabetically.
+			---Checks if a filter and item array match.
+			---
+			---The two collections MUST be sorted alphabetically.
+			---@param filters string[] Array of filters.
+			---@param items string[] Array of items.
+			---@return boolean # Whether the tables match.
 			local match = function(filters, items)
 				-- Different lengths, we know they will not match
 				if(#filters ~= #items) then return false; end
@@ -32,49 +35,53 @@ function mind_find_task(mind, callback)
 			local items = socket_get_items(finished_socket);
 			-- if they match, then this is a task
 			if(match(filters, items)) then
-				local task = make_task(finished_socket, empty_socket);
+				local task = make_gantry_task(finished_socket, empty_socket);
 				local good = callback(task);
-				-- If this task is accepted, then we are done
+				-- If this task is accepted, then we are done.
 				if(good) then
 					return true;
 				end
 			end
-			-- Otherwise we need to find a better task
+			-- Otherwise we need to find a better task.
 		end
 	end
+	-- No task was accepted.
 	return false;
 end
 
--- Checks all the idle gantries to see if one
---can complete a given task, and return its index.
--- If no gantry is found, return -1.
-function mind_find_gantry(mind, task)
-	for i, gantry in mind.idle_gantries do
+-- Checks all the idle gantries to see if one can complete a given task.
+---@param cluster GantryCluster self.
+---@param task GantryTask The task needing a gantry.
+---@return number # the index of the gantry found that can complete the task, or -1 if none were found.
+function gantry_cluster_find_gantry_for_task(cluster, task)
+	for i, gantry in ipairs(cluster.idle_gantries) do
 		if(gantry_controller_can_complete_task(gantry, task)) then
 			return i;
 		end
 	end
+	-- No gantry was found, so return -1.
 	return -1;
 end
 
 -- This function tries to give orders to all of
 --its idle gantries.
-function mind_determine_tasks(mind)
+---@param cluster GantryCluster
+function gantry_cluster_determine_tasks(cluster)
 	-- Until there are no more wating gantries
 	--or there are no tasks found
-	while #mind.idle_gantries do
+	while #cluster.idle_gantries do
 		-- Find the next potential task
-		local was_a_task_found = mind_find_task(mind, function(task)
+		local was_a_task_found = gantry_cluster_find_task(cluster, function(task)
 			-- If a gantry can fulfill this task
-			local gantry_index = mind_find_gantry(mind, task);
-			local gantry = mind.idle_gantries[gantry_index];
-			if(gantry ~= nil) then
+			local gantry_index = gantry_cluster_find_gantry_for_task(cluster, task);
+			if(gantry_index ~= -1) then
+				local gantry = cluster.idle_gantries[gantry_index];
 				-- Issue the order to the gantry
-				gantry.give_order(task);
+				gantry_give_task(gantry, task);
 
 				-- Remove this gantry from the idle collection,
 				--as it now has a task to perform.
-				mind.idle_gantries.remove(gantry_index);
+				table.remove(cluster.idle_gantries, gantry_index);
 				return true;
 			end
 			return false;
@@ -88,19 +95,63 @@ function mind_determine_tasks(mind)
 	end
 end
 
+-- This redetermines the placement of the sockets in the member tables.
+---@param cluster GantryCluster self.
+function gantry_cluster_refresh_socket_categorization(cluster)
+	-- First clear the tables
+	cluster.empty_sockets = {};
+	cluster.finished_sockets = {};
+	-- Then for each socket the gantry can access
+	for _, socket in ipairs(cluster.sockets) do
+		-- If it has not a container
+		if (socket_has_container(socket) == false) then
+			table.insert(cluster.empty_sockets, socket);
+		-- If it has a container that can be removed
+		elseif (socket_meets_conditions(socket)) then
+			table.insert(cluster.finished_sockets, socket);
+		end
+	end
+	---Sorting predicate for how long the socket has sat empty.
+	---@param socket1 Socket
+	---@param socket2 Socket
+	---@return boolean # if socket2 has sat idle longer than socket1.
+	local sort_emptied = function(socket1, socket2)
+		return socket1.time_emptied < socket2.time_emptied;
+	end
+
+	---Sorting predicate for how many times the socket has been skipped over by the cluster.
+	---@param socket1 Socket
+	---@param socket2 Socket
+	---@return boolean # if socket1 has been skipped more times than socket2.
+	local sort_finished = function(socket1, socket2)
+		return socket1.times_skipped > socket2.times_skipped;
+	end
+
+	-- Sort the sockets according to wait time
+	table.sort(cluster.empty_sockets, sort_emptied);
+	table.sort(cluster.finished_sockets, sort_finished);
+end
+
+---@class GantryCluster
+---@field gantries GantryController[] All gantries controlled by this cluster.
+---@field idle_gantries GantryController[] These are the gantries not currently doing anything. Sorted according to how long the gantry has been wating for an order.
+---@field sockets Socket[] All the sockets that this gantry cluster can see.
+---@field empty_sockets Socket[] All the empty sockets that the gantry cluster has access to.
+---@field finished_sockets Socket[] All the sockets that have containers, but meet the requirements to be unloaded.
+
 -- Constructor for a gantry cluster.
 -- This object manages multiple gantries in a cluster.
+---@return GantryCluster
 function make_gantry_cluster()
-	local mind = {};
-	
-	-- This is information about what sockets
-	--the gantry collective has access to.
-	mind.memory = make_memory();
+	---@type GantryCluster
+	local gantry_cluster = {
+		gantries = {};
+		idle_gantries = {};
 
-	-- These are the gantries not currently doing anything.
-	-- Sorted according to how long the gantry has been wating
-	--for an order.
-	mind.idle_gantries = {};
+		sockets = {};
+		empty_sockets = {};
+		finished_sockets = {};
+	};
 
-	return mind;
+	return gantry_cluster;
 end

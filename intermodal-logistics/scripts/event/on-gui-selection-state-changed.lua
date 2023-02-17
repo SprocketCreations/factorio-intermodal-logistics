@@ -10,12 +10,12 @@ function on_gui_selection_state_changed(event)
 
 		-- Update the socket with the new condition
 		local switch = {
-			conditional_add_inactivity_condition,
-			conditional_add_time_elapsed_condition,
-			conditional_add_full_condition,
-			conditional_add_empty_condition,
-			conditional_add_item_count_condition,
-			conditional_add_circuit_condition,
+			socket_conditional_add_inactivity_condition,
+			socket_conditional_add_time_passed_condition,
+			socket_conditional_add_full_condition,
+			socket_conditional_add_empty_condition,
+			socket_conditional_add_item_count_condition,
+			socket_conditional_add_circuit_condition,
 		};
 		local condition = switch[event.element.selected_index](conditionals);
 		event.element.selected_index = 0;

@@ -1,7 +1,7 @@
 require("scripts.util.number-prettier");
 
 function on_gui_confirmed(event)
-	if (event.element.name == "gantry_time_elapsed_customize_field") then
+	if (event.element.name == "gantry_time_passed_customize_field") then
 		event.element.text = event.element.text .. " s";
 	end
 

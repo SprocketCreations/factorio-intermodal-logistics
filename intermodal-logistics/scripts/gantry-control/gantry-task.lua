@@ -1,12 +1,17 @@
+---@class GantryTask
+---@field starting_socket Socket
+---@field ending_socket Socket
 
--- Constructor for a task.
--- Takes startingSocket as the socket that has the container
--- Takes endingSocket as the socket that wants the container
-function make_task(starting_socket, ending_socket)
-	local task = {};
-	
-	task.starting_socket = starting_socket;
-	task.ending_socket = ending_socket;
+---Constructor for a GantryTask.
+---@param starting_socket Socket The socket that has the container.
+---@param ending_socket Socket The socket that wants the container.
+---@return GantryTask
+function make_gantry_task(starting_socket, ending_socket)
+	---@type GantryTask
+	local task = {
+		starting_socket = starting_socket;
+		ending_socket = ending_socket;
+	};
 
 	return task;
 end
