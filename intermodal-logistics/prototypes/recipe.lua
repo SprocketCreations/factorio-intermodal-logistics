@@ -5,16 +5,16 @@ data:extend {
 			{"advanced-circuit", 5},
 		},
 		category = "crafting",
-		subgroup = "cradle",
+		subgroup = "dock",
 		enabled = true,
 		energy_required = 2.5,
 
 		icon_size = 32,
-		icon = "__intermodal-logistics__/graphics/icon/intermodal-cradle.png",
-		result = "intermodal_cradle",
+		icon = "__intermodal-logistics__/graphics/icon/intermodal-dock.png",
+		result = "intermodal_dock",
 
 		-- Base
-		name = "cradle",
+		name = "dock",
 		type = "recipe",
 		order = "gc",
 	}
