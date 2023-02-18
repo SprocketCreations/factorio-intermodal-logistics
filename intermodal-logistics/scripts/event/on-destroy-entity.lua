@@ -9,8 +9,8 @@ function on_destroy_entity(event)
 			gantry_controller_destroy(global.gantries[event.entity.unit_number]);
 			global.gantries[event.entity.unit_number] = nil;
 		end;
-		-- This is called if the entity is registered as a cradle
-		cradle = function()
+		-- This is called if the entity is registered as a dock
+		dock = function()
 			global.sockets[event.entity.unit_number] = nil;
 		end;
 		-- This is called if the entity is registered as a flatbed

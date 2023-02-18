@@ -1,6 +1,6 @@
 data:extend {
 	{
-		icon = "__intermodal-logistics__/graphics/icon/intermodal-cradle.png",
+		icon = "__intermodal-logistics__/graphics/icon/intermodal-dock.png",
 		icon_size = 32,
 		type = "item-group",
 		name = "gantry-group",
@@ -21,7 +21,7 @@ data:extend {
 	{
 		group = "logistics",--"gantry-group",
 		type = "item-subgroup",
-		name = "cradle",
+		name = "dock",
 		order = "gw",
 	}
 };

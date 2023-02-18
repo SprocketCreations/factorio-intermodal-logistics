@@ -6,24 +6,24 @@ function on_blueprint_setup(event)
 	local entities = player.cursor_stack.get_blueprint_entities();
 	-- Get the blueprint item the player just created
 	local blueprint = player.cursor_stack;
-	-- We will keep track of all the cradles here
-	local cradle_entities = {};
+	-- We will keep track of all the docks here
+	local dock_entities = {};
 	-- Check each entity
 	for _, entity in ipairs(entities) do
 		-- Object is a ref to the registry entry for this entity, if this entity is in the registry
 		local object = gantry_prototype.socket_prototypes[entity.name];
 		if (object ~= nil) then
 			-- If it is registered, make a note of it.
-			table.insert(cradle_entities, { entity = entity, object = object });
+			table.insert(dock_entities, { entity = entity, object = object });
 		end
 	end
 
-	-- If there are cradle entities we need to modify,
-	if (#cradle_entities ~= 0) then
+	-- If there are dock entities we need to modify,
+	if (#dock_entities ~= 0) then
 		-- First wipe the blueprints
 		blueprint.clear_blueprint();
 		-- Then iterate the list of entities we marked down as needing to be changed.
-		for _, ent in pairs(cradle_entities) do
+		for _, ent in pairs(dock_entities) do
 			local entity = ent.entity;
 			local object = ent.object;
 			local dummy = object.placement_dummy_prototype_name;

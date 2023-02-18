@@ -39,14 +39,15 @@ local function add_type_to_all_prototypes()
 	end
 end
 
----@type IntermodalLogisticsGame
-intermodal_logistics_game = parse_table(get_jsnot());
-add_type_to_all_prototypes();
 
-function intermodal_logistics_game:get_data(prototype)
-	return self.gantries[prototype] or
-		self.cradles[prototype] or
-		self.flatbeds[prototype];
+function parse_data_pipeline()
+	---@type IntermodalLogisticsGame
+	intermodal_logistics_game = parse_table(get_jsnot());
+	add_type_to_all_prototypes();
+
+	function intermodal_logistics_game:get_data(prototype)
+		return self.gantries[prototype] or
+			self.docks[prototype] or
+			self.flatbeds[prototype];
+	end
 end
-
-

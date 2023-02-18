@@ -12,14 +12,14 @@ function init_prototypes()
 		},
 	});
 
-	--[[ CRADLE REGISTRY ]]
-	remote.call("register_prototypes", "register_cradle", {
+	--[[ dock REGISTRY ]]
+	remote.call("register_prototypes", "register_dock", {
 		{
-			placement_dummy_prototype_name = "cradle-dummy",
-			empty_vertical_prototype_name = "vertical-empty-cradle",
-			empty_horizontal_prototype_name = "horizontal-empty-cradle",
-			containered_vertical_prototype_name = "vertical-intermodal-cradle",
-			containered_horizontal_prototype_name = "horizontal-intermodal-cradle",
+			placement_dummy_prototype_name = "dock-dummy",
+			empty_vertical_prototype_name = "vertical-empty-dock",
+			empty_horizontal_prototype_name = "horizontal-empty-dock",
+			containered_vertical_prototype_name = "vertical-intermodal-dock",
+			containered_horizontal_prototype_name = "horizontal-intermodal-dock",
 		},
 	});
 

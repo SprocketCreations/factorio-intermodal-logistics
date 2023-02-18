@@ -1,5 +1,5 @@
--- Replaces a dummy cradle with its real version
-function create_cradle(entity_to_replace, new_prototype)
+-- Replaces a dummy dock with its real version
+function create_dock(entity_to_replace, new_prototype)
 	local surface = entity_to_replace.surface;
 	local settings = {
 		name = new_prototype,

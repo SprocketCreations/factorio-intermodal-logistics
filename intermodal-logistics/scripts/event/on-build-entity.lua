@@ -1,5 +1,5 @@
 require("scripts.gantry-control.gantry-socket");
-require("scripts.create-cradle");
+require("scripts.create-dock");
 require("scripts.create-gantry");
 
 ---Called whenever an entity is created in the world.
@@ -44,21 +44,21 @@ function on_build_entity(event)
 
 			create_gantry(event.created_entity, type);
 		end,
-		-- This is called if the entity is registered as a cradle
-		-- cradle = function()
+		-- This is called if the entity is registered as a dock
+		-- dock = function()
 		-- 	local new_entity = event.created_entity;
 		-- 	if (object.placement_dummy_prototype_name == event.created_entity.name) then
-		-- 		-- The cradle has two steps:
+		-- 		-- The dock has two steps:
 		-- 		-- 1. replace dummy prototype with real prototype
 		-- 		local direction = event.created_entity.direction;
 		-- 		if (direction == defines.direction.east or direction == defines.direction.west) then
 		-- 			--east
-		-- 			new_entity = create_cradle(
+		-- 			new_entity = create_dock(
 		-- 				event.created_entity,
 		-- 				object.empty_vertical_prototype_name);
 		-- 		else
 		-- 			--north
-		-- 			new_entity = create_cradle(
+		-- 			new_entity = create_dock(
 		-- 				event.created_entity,
 		-- 				object.empty_horizontal_prototype_name);
 		-- 		end

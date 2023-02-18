@@ -1,7 +1,5 @@
--- Remotes
-require("scripts.prototype-objects.gantry");
-require("scripts.prototype-objects.cradle");
-require("scripts.prototype-objects.flatbed");
+-- Create the game instance on load
+require("scripts.intermodal-logistics-game");
 
 -- Initializers
 require("scripts.globals");
@@ -22,15 +20,15 @@ require("scripts.event.on-gui-click");
 
 
 
+local function on_first_tick(event)
+	script.on_event(defines.events.on_tick, nil);
+	parse_data_pipeline();
+end
+
 -- This is the main control script.
 -- It just sets all the event handlers
 --to functions in other files.
 
-remote.add_interface("register_prototypes", {
-	register_gantry = make_gantry_prototype_object,
-	register_cradle = make_cradle_prototype_object,
-	register_flatbed = make_flatbed_prototype_object,
-});
 
 script.on_event({
 	defines.events.on_player_mined_entity,
@@ -60,15 +58,10 @@ script.on_configuration_changed(function(data)
 			build_interface(player);
 		end
 	end
-end)
-
--- This is super stupid.
-script.on_event(defines.events.on_tick, function(event)
-	script.on_event(defines.events.on_tick, nil);
-	parse_data_pipeline();
 end);
 
 script.on_init(function()
+	script.on_event(defines.events.on_tick, on_first_tick);
 	init_globals();
 	init_prototype_globals();
 	for _, player in pairs(game.players) do
@@ -76,15 +69,14 @@ script.on_init(function()
 	end
 end);
 
+script.on_load(function()
+	script.on_event(defines.events.on_tick, on_first_tick);
+	init_prototype_globals();
+end);
 
 script.on_event(defines.events.on_player_created, function(event)
 	local player = game.get_player(event.player_index);
 	build_interface(player);
-end);
-
-
-script.on_load(function()
-	init_prototype_globals();
 end);
 
 -- Blueprint stuff

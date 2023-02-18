@@ -1,7 +1,7 @@
 -- Replaces a given entity with another.
 -- No guarentees for switching prototypes
 --that are wildly different.
--- This is ment for, and tested on cradles,
+-- This is ment for, and tested on docks,
 --gantries, and wagons. No guarentee it will
 --work on other entities.
 local replace_entity = function(entity, new_prototype)

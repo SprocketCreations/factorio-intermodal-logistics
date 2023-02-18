@@ -1,12 +1,12 @@
 local pictures = {
 	horizontal = {
-		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/horizontal-intermodal-dock.png",
 		priority = "very-low",
 		width = 256,
 		height = 128,
 		hr_version =
 		{
-			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-intermodal-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/horizontal-intermodal-dock.png",
 			priority = "very-low",
 			width = 256,
 			height = 128,
@@ -14,13 +14,13 @@ local pictures = {
 		},
 	},
 	empty_horizontal = {
-		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/horizontal-empty-dock.png",
 		priority = "very-low",
 		width = 256,
 		height = 128,
 		hr_version =
 		{
-			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/horizontal-empty-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/horizontal-empty-dock.png",
 			priority = "very-low",
 			width = 256,
 			height = 128,
@@ -28,13 +28,13 @@ local pictures = {
 		},
 	},
 	empty_vertical = {
-		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/vertical-empty-dock.png",
 		priority = "very-low",
 		width = 128,
 		height = 256,
 		hr_version =
 		{
-			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-empty-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/vertical-empty-dock.png",
 			priority = "very-low",
 			width = 128,
 			height = 256,
@@ -42,13 +42,13 @@ local pictures = {
 		},
 	},
 	vertical = {
-		filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
+		filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/vertical-intermodal-dock.png",
 		priority = "very-low",
 		width = 128,
 		height = 256,
 		hr_version =
 		{
-			filename = "__intermodal-logistics__/graphics/entity/intermodal-cradle/vertical-intermodal-cradle.png",
+			filename = "__intermodal-logistics__/graphics/entity/intermodal-dock/vertical-intermodal-dock.png",
 			priority = "very-low",
 			width = 128,
 			height = 256,
@@ -59,7 +59,7 @@ local pictures = {
 
 
 local icon_size = 32;
-local icon = "__intermodal-logistics__/graphics/icon/intermodal-cradle.png";
+local icon = "__intermodal-logistics__/graphics/icon/intermodal-dock.png";
 
 local flags = { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable" };
 local empty_flags = { "placeable-neutral", "player-creation", "not-upgradable", "not-rotatable",
@@ -91,13 +91,13 @@ local vehicle_impact_sound = {
 };
 
 local empty_placeable_by = {
-	item = "intermodal-cradle",
+	item = "intermodal-dock",
 	count = 1,
 };
 
 local placeable_by = {
 	{
-		item = "intermodal-cradle",
+		item = "intermodal-dock",
 		count = 1,
 	},
 	--[[ {
@@ -112,7 +112,7 @@ local minable = {
 	{
 		{
 			type = "item",
-			name = "intermodal-cradle",
+			name = "intermodal-dock",
 			amount = 1,
 		},
 		--[[    {	
@@ -129,7 +129,7 @@ local empty_minable = {
 	{
 		{
 			type = "item",
-			name = "intermodal-cradle",
+			name = "intermodal-dock",
 			amount = 1,
 		},
 	},
@@ -171,7 +171,7 @@ local circuit_wire_max_distance = 8;
 data:extend {
 	{
 		type = "simple-entity-with-owner",
-		name = "cradle-dummy",
+		name = "dock-dummy",
 		icon_size = icon_size,
 		icon = icon,
 		flags = { "placeable-neutral", "player-creation", "not-upgradable", },
@@ -189,20 +189,20 @@ data:extend {
 	{
 		-- Base
 		type = "container",
-		name = "horizontal-empty-cradle",
+		name = "horizontal-empty-dock",
 		order = "aa",
 
 		-- Entity
 		icon_size = icon_size,
 		icon = icon,
 		flags = empty_flags,
-		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/dock-place.ogg" },
 		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
 		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = horizontal_collision_box,
 		selection_box = horizontal_selection_box,
 		shooting_cursor_size = 50,
-		--subgroup = "intermodal-cradle",
+		--subgroup = "intermodal-dock",
 		vehicle_impact_sound = vehicle_impact_sound,
 		placeable_by = empty_placeable_by;
 		minable = empty_minable;
@@ -226,20 +226,20 @@ data:extend {
 	{
 		-- Base
 		type = "container",
-		name = "horizontal-intermodal-cradle",
+		name = "horizontal-intermodal-dock",
 		order = "aa",
 
 		-- Entity
 		icon_size = icon_size,
 		icon = icon,
 		flags = flags,
-		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/dock-place.ogg" },
 		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
 		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = horizontal_collision_box,
 		selection_box = horizontal_selection_box,
 		shooting_cursor_size = 50,
-		--subgroup = "intermodal-cradle",
+		--subgroup = "intermodal-dock",
 		vehicle_impact_sound = vehicle_impact_sound,
 		placeable_by = placeable_by;
 		minable = minable;
@@ -263,20 +263,20 @@ data:extend {
 	{
 		-- Base
 		type = "container",
-		name = "vertical-empty-cradle",
+		name = "vertical-empty-dock",
 		order = "aa",
 
 		-- Entity
 		icon_size = icon_size,
 		icon = icon,
 		flags = empty_flags,
-		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/dock-place.ogg" },
 		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
 		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = vertical_collision_box,
 		selection_box = vertical_selection_box,
 		shooting_cursor_size = 50,
-		--subgroup = "intermodal-cradle",
+		--subgroup = "intermodal-dock",
 		vehicle_impact_sound = vehicle_impact_sound,
 		placeable_by = empty_placeable_by;
 		minable = empty_minable;
@@ -300,20 +300,20 @@ data:extend {
 	{
 		-- Base
 		type = "container",
-		name = "vertical-intermodal-cradle",
+		name = "vertical-intermodal-dock",
 		order = "aa",
 
 		-- Entity
 		icon_size = icon_size,
 		icon = icon,
 		flags = flags,
-		-- build_sound = { filename = "__intermodal-logistics__/sounds/cradle-place.ogg" },
+		-- build_sound = { filename = "__intermodal-logistics__/sounds/dock-place.ogg" },
 		-- open_sound =  { filename = "__intermodal-logistics__/sounds/intermodal-open.ogg" },
 		-- close_sound = { filename = "__intermodal-logistics__/sounds/intermodal-close.ogg" },
 		collision_box = vertical_collision_box,
 		selection_box = vertical_selection_box,
 		shooting_cursor_size = 50,
-		--subgroup = "intermodal-cradle",
+		--subgroup = "intermodal-dock",
 		vehicle_impact_sound = vehicle_impact_sound,
 		placeable_by = placeable_by;
 		minable = minable;

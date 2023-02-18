@@ -85,7 +85,7 @@ end
 ---@field times_skipped number The number of times this socket was skipped by the cluster while waiting to have its container removed.
 
 -- This is a constructor for a socket.
--- A socket is a representation of a cradle or a flatbed wagon.
+-- A socket is a representation of a dock or a flatbed wagon.
 ---@param entity LuaEntity
 ---@return Socket
 function make_socket(entity)
