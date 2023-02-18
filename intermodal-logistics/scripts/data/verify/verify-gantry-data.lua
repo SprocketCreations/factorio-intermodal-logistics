@@ -4,26 +4,26 @@
 function verify_raw_gantry(gantry)
 	local rotations = gantry.rotations;
 
-	-- collect all the truck entries
-	local ground_trucks = {
-		table.unpack(rotations.north.ground_trucks),
-		table.unpack(rotations.east.ground_trucks),
-		table.unpack(rotations.south.ground_trucks or {}),
-		table.unpack(rotations.west.ground_trucks or {}),
+	-- collect all the bogey entries
+	local ground_bogies = {
+		table.unpack(rotations.north.ground_bogies),
+		table.unpack(rotations.east.ground_bogies),
+		table.unpack(rotations.south.ground_bogies or {}),
+		table.unpack(rotations.west.ground_bogies or {}),
 	};
-	-- Get all the truck prototypes
-	---@type {[table]: true} A Set of trucks
-	local trucks_set = {};
-	for i = 1, #ground_trucks, 1 do
-		trucks_set[ground_trucks[i].truck] = true;
+	-- Get all the bogey prototypes
+	---@type {[table]: true} A Set of bogies
+	local bogies_set = {};
+	for i = 1, #ground_bogies, 1 do
+		bogies_set[ground_bogies[i].bogey] = true;
 	end
 
 	-- Convert from keys to values
-	local trucks = {};
+	local bogies = {};
 	local i = 1;
-	for truck, _ in pairs(trucks_set) do
-		truck.name = gantry.name .. "-truck-" .. tostring(i);
-		table.insert(trucks, truck);
+	for bogey, _ in pairs(bogies_set) do
+		bogey.name = gantry.name .. "-bogey-" .. tostring(i);
+		table.insert(bogies, bogey);
 		i = i + 1;
 	end
 
@@ -44,10 +44,10 @@ function verify_raw_gantry(gantry)
 	end
 
 	local data = {
-		clone_north_to_south = rotations.south.ground_trucks == nil;
-		clone_east_to_west = rotations.west.ground_trucks == nil;
+		clone_north_to_south = rotations.south.ground_bogies == nil;
+		clone_east_to_west = rotations.west.ground_bogies == nil;
 		gantry_data = gantry;
-		trucks = trucks;
+		bogies = bogies;
 	};
 	return data;
 end

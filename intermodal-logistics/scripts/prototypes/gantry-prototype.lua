@@ -5,12 +5,12 @@
 
 ---@class GantryPrototypeRotation
 ---@field prototype string The name of the prototype to be used for this rotation.
----@field work_width number | number The width in tiles that the gantry trolley can cover.
+---@field work_width Vector The width in tiles that the gantry trolley can cover. X is negative direction and Y is positive direction.
 ---@field bogies GantryPrototypeBogey[] The bogey on this rotation.
 
 ---@class GantryPrototypeBogey
 ---@field prototype string The name of this bogey's prototype.
----@field positions (double | double)[] An array of all the positions this bogey should appear in.
+---@field positions MapPosition[] An array of all the positions this bogey should appear in.
 
 ---Constructor for a new gantry prototype.
 ---@param placement_dummy_prototype string The name of the entity prototype to use for player placement.

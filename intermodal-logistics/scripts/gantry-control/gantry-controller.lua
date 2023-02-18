@@ -20,19 +20,19 @@ end
 function gantry_give_task(gantry_controller, task)
 end
 
----Destroys all the trucks accociated with a gantry.
+---Destroys all the bogies accociated with a gantry.
 ---@param gantry_controller GantryController
 function gantry_controller_destroy(gantry_controller)
-	local trucks = gantry_controller.trucks;
-	for i = 1, #trucks, 1 do
-		trucks[i].destroy();
+	local bogies = gantry_controller.bogies;
+	for i = 1, #bogies, 1 do
+		bogies[i].destroy();
 	end
 end
 
 ---@class GantryController
 ---@field prototype string The custom intermodal logistics prototype.
 ---@field entity LuaEntity The entity in the world that represents this gantry crane.
----@field trucks LuaEntity[] This gantry's trucks.
+---@field bogies LuaEntity[] This gantry's bogies.
 ---@field current_task GantryTask[] This is the action performed by the gantry right now.
 
 ---Constructor for a gantry controller.
@@ -40,13 +40,13 @@ end
 ---This object manages a single gantry in the world.
 ---It can be given tasks and will act on them.
 ---@param gantry_entity LuaEntity The gantry entity.
----@param truck_entities LuaEntity[] All the truck entities owned by this gantry.
+---@param bogey_entities LuaEntity[] All the bogey entities owned by this gantry.
 ---@return GantryController gantry_controller
-function make_gantry_controller(gantry_entity, truck_entities)
+function make_gantry_controller(gantry_entity, bogey_entities)
 	---@type GantryController
 	local gantry_controller = {
 		entity = gantry_entity;
-		trucks = truck_entities;
+		bogies = bogey_entities;
 		current_task = {};
 	};
 

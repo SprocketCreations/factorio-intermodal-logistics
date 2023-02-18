@@ -15,7 +15,7 @@ data:extend {
 	{
 		group = "logistics",--"gantry-group",
 		type = "item-subgroup",
-		name = "gantry-truck",
+		name = "gantry-bogey",
 		order = "gn",
 	},
 	{

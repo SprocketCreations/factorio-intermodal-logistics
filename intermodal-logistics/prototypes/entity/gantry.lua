@@ -1,28 +1,28 @@
-local truck_north_picture = {
-	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/truck-north.png";
+local bogey_north_picture = {
+	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/bogey-north.png";
 	size = { 352, 164 };
 	scale = 1;
 	shift = { 0.0, -2.277687221765518 };
 };
-local truck_east_picture = {
-	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/truck-east.png";
+local bogey_east_picture = {
+	filename = "__intermodal-logistics__/graphics/entity/gantry/small-gantry/bogey-east.png";
 	size = { 64, 368 };
 	scale = 1;
 	shift = { 0.0, -2.0007780268788338 };
 };
 
 
--- The truck being used
+-- The bogey being used
 -- This is a simple entity.
-local truck = {
+local bogey = {
 	picture = {
-		north = truck_north_picture;
-		east = truck_east_picture;
-		south = truck_north_picture;
-		west = truck_east_picture;
+		north = bogey_north_picture;
+		east = bogey_east_picture;
+		south = bogey_north_picture;
+		west = bogey_east_picture;
 	};
-	type = 'truck';
-	-- The truck's collider
+	type = 'bogey';
+	-- The bogey's collider
 	collision_box = { { -4.8, -0.3 }, { 4.8, 0.3 } };
 	drawing_box = { { -4, -0.5 }, { 4, 0.5 } };
 };
@@ -52,11 +52,11 @@ local small_gantry = {
 	rotations = {
 		-- If south is not specified, north will be used.
 		north = {
-			-- Array of ground contact trucks.
-			ground_trucks = {
+			-- Array of ground contact bogeys.
+			bogeys = {
 				{
-					truck = truck;
-					-- Table for how the trucks are positioned relative to the gantry
+					bogey = bogey;
+					-- Table for how the bogeys are positioned relative to the gantry
 					positions = { { 0, -4.5 }, { 0, 4.5 } };
 				},
 			};
@@ -75,9 +75,9 @@ local small_gantry = {
 		};
 		-- If west is not specified, east will be used.
 		east = {
-			ground_trucks = {
+			bogeys = {
 				{
-					truck = truck;
+					bogey = bogey;
 					positions = { { -4.5, 0 }, { 4.5, 0 } };
 				},
 			};
@@ -91,11 +91,11 @@ local small_gantry = {
 			}
 		};
 		south = {
-			-- Array of ground contact trucks.
-			ground_trucks = {
+			-- Array of bogeys.
+			bogeys = {
 				{
-					truck = truck;
-					-- Table for how the trucks are positioned relative to the gantry
+					bogey = bogey;
+					-- Table for how the bogies are positioned relative to the gantry
 					positions = { { 0, -4.5 }, { 0, 4.5 } };
 				},
 			};
@@ -110,9 +110,9 @@ local small_gantry = {
 			};
 		};
 		west = {
-			ground_trucks = {
+			bogies = {
 				{
-					truck = truck;
+					bogey = bogey;
 					positions = { { -4.5, 0 }, { 4.5, 0 } };
 				},
 			};

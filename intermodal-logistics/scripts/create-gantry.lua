@@ -32,13 +32,13 @@ function create_gantry(entity_to_replace, gantry_data)
 	local gantry_entity = surface.create_entity(settings);
 
 	---@type LuaEntity[]
-	local truck_entities = {};
-	-- Create the trucks.
-	for i = 1, #(data.trucks), 1 do
-		local prototype = data.trucks[i].prototype;
-		local positions = data.trucks[i].positions;
+	local bogey_entities = {};
+	-- Create the bogies.
+	for i = 1, #(data.bogies), 1 do
+		local prototype = data.bogies[i].prototype;
+		local positions = data.bogies[i].positions;
 		for j = 1, #positions, 1 do
-			local truck = surface.create_entity {
+			local bogey = surface.create_entity {
 				name = prototype;
 				position = {positions[j][1] + gantry_entity.position.x, positions[j][2] + gantry_entity.position.y};
 				direction = direction;
@@ -47,9 +47,9 @@ function create_gantry(entity_to_replace, gantry_data)
 				spawn_decorations = false,
 				move_stuck_players = true,
 			};
-			table.insert(truck_entities, truck);
+			table.insert(bogey_entities, bogey);
 		end
 	end
 
-	global.gantries[gantry_entity.unit_number] =  make_gantry_controller(gantry_entity, truck_entities);
+	global.gantries[gantry_entity.unit_number] =  make_gantry_controller(gantry_entity, bogey_entities);
 end
