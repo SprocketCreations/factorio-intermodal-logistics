@@ -4,7 +4,7 @@
 -- This is ment for, and tested on docks,
 --gantries, and wagons. No guarentee it will
 --work on other entities.
-local replace_entity = function(entity, new_prototype)
+function replace_entity(entity, new_prototype)
 	-- Stores all the data from the old
 	--entity that needs to be restored.
 	local old_entity = {
@@ -55,6 +55,3 @@ local replace_entity = function(entity, new_prototype)
 	};
 	return new_entity;
 end
-
-
-return replace_entity;

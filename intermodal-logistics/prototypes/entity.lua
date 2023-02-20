@@ -1,8 +1,7 @@
 
 require("entity.rail");
-require("entity.empty-flatbed-wagon");
-require("entity.intermodal-flatbed-wagon");
+require("entity.flatbed-container-wagon");
 
 require("entity.dock");
 
-require("entity.gantry");
+require("entity.small-gantry");

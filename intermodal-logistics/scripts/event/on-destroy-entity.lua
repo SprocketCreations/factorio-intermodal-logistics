@@ -6,8 +6,8 @@ function on_destroy_entity(event)
 	-- Lua does not have switch statements to my knowledge.
 	local switch = {
 		gantry = function()
-			gantry_controller_destroy(global.gantries[event.entity.unit_number]);
-			global.gantries[event.entity.unit_number] = nil;
+			gantry_controller_destroy(global.gantry_controllers[event.entity.unit_number]);
+			global.gantry_controllers[event.entity.unit_number] = nil;
 		end;
 		-- This is called if the entity is registered as a dock
 		dock = function()

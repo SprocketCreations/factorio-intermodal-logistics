@@ -51,5 +51,5 @@ function create_gantry(entity_to_replace, gantry_data)
 		end
 	end
 
-	global.gantries[gantry_entity.unit_number] =  make_gantry_controller(gantry_entity, bogey_entities);
+	global.gantry_controllers[gantry_entity.unit_number] =  make_gantry_controller(gantry_entity, bogey_entities);
 end

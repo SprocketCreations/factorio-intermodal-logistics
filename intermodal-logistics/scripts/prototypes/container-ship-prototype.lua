@@ -1,4 +1,4 @@
----@class ContainerShipPrototype
+---@class ContainerShipPrototype: CustomPrototype
 
 ---Constructor for the ContainerShipPrototype class.
 ---@return ContainerShipPrototype # The new container ship.

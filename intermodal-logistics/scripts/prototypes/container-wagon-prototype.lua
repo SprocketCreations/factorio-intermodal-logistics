@@ -1,4 +1,4 @@
----@class ContainerWagonPrototype
+---@class ContainerWagonPrototype: CustomPrototype
 
 ---Constructor for the ContainerWagonPrototype class.
 ---@return ContainerWagonPrototype # The new container wagon.

@@ -1,5 +1,4 @@
----@class GantryPrototype
----@field type string The name of this prototype.
+---@class GantryPrototype: CustomPrototype
 ---@field placement_dummy_prototype string The name of the prototype used when placing a gantry on a surface.
 ---@field rotations {north: GantryPrototypeRotation, east: GantryPrototypeRotation, south: GantryPrototypeRotation, west: GantryPrototypeRotation} The specific data for each rotation of the placed gantry.
 

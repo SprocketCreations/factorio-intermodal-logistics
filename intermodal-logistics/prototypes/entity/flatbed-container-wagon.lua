@@ -1,31 +1,36 @@
 -- Copy the vanilla cargo wagon
-local empty_flatbed_wagon = util.table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]);
--- Override everything I need to
-empty_flatbed_wagon.name = "flatbed-wagon";
+local flatbed_container_wagon = util.table.deepcopy(data.raw["cargo-wagon"]["cargo-wagon"]);
+-- Intermodal logistics stuff:
+flatbed_container_wagon.type = "container-wagon";
+flatbed_container_wagon.container_length = 2;
+flatbed_container_wagon.max_container_stack = 1;
+flatbed_container_wagon.allow_half_loading = true;
+-- Vanilla stuff:
+flatbed_container_wagon.name = "flatbed-wagon";
 -- empty_flatbed_wagon.icon = "__intermodal-logistics__/graphics/icon/empty-flatbed-wagon.png";
 -- empty_flatbed_wagon.icon_size = 32;
 -- empty_flatbed_wagon.icon_mipmaps = 1;
-empty_flatbed_wagon.inventory_size = 1;
-empty_flatbed_wagon.mineable =
+flatbed_container_wagon.inventory_size = 1;
+flatbed_container_wagon.mineable =
 {
 	mining_time = 1,
 	result = "iron-plate"
 	--result = "flatbed-wagon"
 }
 -- This is a flatbed and has no doors
-empty_flatbed_wagon.horizontal_doors = nil;
-empty_flatbed_wagon.vertical_doors = nil;
+flatbed_container_wagon.horizontal_doors = nil;
+flatbed_container_wagon.vertical_doors = nil;
 
 --[[
 	The vanilla cargo wagon is 1000 weight
 
 	According to this product: https://www.vtg.com/hiring/our-fleet/i41040d,
-	the ratio between rolling stock and container is 1/3.
+	the ratio between rolling stock and container is 1:3.
 
 	Therefore, the weight of this rolling stock should be 1/4 of the vanilla 
 	cargo wagon.
 --[[]]
-empty_flatbed_wagon.weight = 250;
+flatbed_container_wagon.weight = 250;
 --[[ 
 empty_flatbed_wagon.minimap_representation =
 {
@@ -42,13 +47,13 @@ empty_flatbed_wagon.selected_minimap_representation =
 	scale = 0.5,
 } ]]
 
-empty_flatbed_wagon.joint_distance = 8;-- default 4
-empty_flatbed_wagon.collision_box = {{-0.6, -4.4}, {0.6, 4.4}};-- default {{-0.6, -2.4}, {0.6, 2.4}}
-empty_flatbed_wagon.selection_box = {{-1, -4.703125}, {1, 5.296875}};-- default {{-1, -2.703125}, {1, 3.296875}}
+flatbed_container_wagon.joint_distance = 8;-- default 4
+flatbed_container_wagon.collision_box = {{-0.6, -4.4}, {0.6, 4.4}};-- default {{-0.6, -2.4}, {0.6, 2.4}}
+flatbed_container_wagon.selection_box = {{-1, -4.703125}, {1, 5.296875}};-- default {{-1, -2.703125}, {1, 3.296875}}
 
 
 -- RotatedSprite pictures
-empty_flatbed_wagon.pictures =
+flatbed_container_wagon.pictures =
 {
 	layers =
 	{
@@ -160,4 +165,4 @@ empty_flatbed_wagon.pictures =
 
 
 
-data:extend({empty_flatbed_wagon});
+intermodal_logistics_data:extend({flatbed_container_wagon});

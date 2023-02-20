@@ -1,4 +1,3 @@
-
 -- Called when the player creates a new blueprint by dragging the selection tool.
 function on_blueprint_setup(event)
 	local player = game.get_player(event.player_index);
@@ -11,10 +10,13 @@ function on_blueprint_setup(event)
 	-- Check each entity
 	for _, entity in ipairs(entities) do
 		-- Object is a ref to the registry entry for this entity, if this entity is in the registry
-		local object = gantry_prototype.socket_prototypes[entity.name];
-		if (object ~= nil) then
+		local prototype = intermodal_logistics_game:get_prototype(entity.name);
+		if (prototype ~= nil) then
 			-- If it is registered, make a note of it.
-			table.insert(dock_entities, { entity = entity, object = object });
+			table.insert(dock_entities, {
+				entity = entity,
+				prototype = prototype,
+			});
 		end
 	end
 

@@ -1,10 +1,7 @@
--- Create the game instance on load
-require("scripts.intermodal-logistics-game");
 
 -- Initializers
-require("scripts.globals");
+require("scripts.intermodal-logistics-game");
 require("scripts.interface");
-require("scripts.init-prototype-globals");
 
 -- Events
 require("scripts.event.on-build-entity");
@@ -61,21 +58,27 @@ script.on_configuration_changed(function(data)
 end);
 
 script.on_init(function()
+	-- Set the on first tick event.
 	script.on_event(defines.events.on_tick, on_first_tick);
-	init_globals();
-	init_prototype_globals();
+	-- Create all the global tables
+	init_static_globals();
+	init_transient_globals();
+	-- Give every player the custom guis
 	for _, player in pairs(game.players) do
 		build_interface(player);
 	end
 end);
 
 script.on_load(function()
+	-- Set the on first tick event.
 	script.on_event(defines.events.on_tick, on_first_tick);
-	init_prototype_globals();
+	-- Create all the global tables
+	init_transient_globals();
 end);
 
 script.on_event(defines.events.on_player_created, function(event)
 	local player = game.get_player(event.player_index);
+	-- Give each new player the custom gui
 	build_interface(player);
 end);
 

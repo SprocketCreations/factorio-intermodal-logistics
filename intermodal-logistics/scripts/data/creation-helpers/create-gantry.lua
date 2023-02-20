@@ -1,5 +1,5 @@
 -- gantry_data.flags must contain "not-rotatable"
----@param gantry_data any
+---@param gantry_data table
 ---@return string
 ---@return string
 ---@return string

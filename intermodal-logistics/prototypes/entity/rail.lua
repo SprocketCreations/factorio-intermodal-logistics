@@ -11,7 +11,7 @@ local horizontal_picture = {
 	scale = 0.25;
 };
 
-data:extend {
+intermodal_logistics_data:extend {
 	{
 		-- Entity
 		icon = "__intermodal-logistics__/graphics/entity/rail/horizontal.png";
