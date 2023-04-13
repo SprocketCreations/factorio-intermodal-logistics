@@ -112,16 +112,16 @@ function gantry_cluster_refresh_socket_categorization(cluster)
 		end
 	end
 	---Sorting predicate for how long the socket has sat empty.
-	---@param socket1 Socket
-	---@param socket2 Socket
+	---@param socket1 ContainerSocket
+	---@param socket2 ContainerSocket
 	---@return boolean # if socket2 has sat idle longer than socket1.
 	local sort_emptied = function(socket1, socket2)
 		return socket1.time_emptied < socket2.time_emptied;
 	end
 
 	---Sorting predicate for how many times the socket has been skipped over by the cluster.
-	---@param socket1 Socket
-	---@param socket2 Socket
+	---@param socket1 ContainerSocket
+	---@param socket2 ContainerSocket
 	---@return boolean # if socket1 has been skipped more times than socket2.
 	local sort_finished = function(socket1, socket2)
 		return socket1.times_skipped > socket2.times_skipped;
@@ -135,9 +135,9 @@ end
 ---@class GantryCluster
 ---@field gantries GantryController[] All gantries controlled by this cluster.
 ---@field idle_gantries GantryController[] These are the gantries not currently doing anything. Sorted according to how long the gantry has been wating for an order.
----@field sockets Socket[] All the sockets that this gantry cluster can see.
----@field empty_sockets Socket[] All the empty sockets that the gantry cluster has access to.
----@field finished_sockets Socket[] All the sockets that have containers, but meet the requirements to be unloaded.
+---@field sockets ContainerSocket[] All the sockets that this gantry cluster can see.
+---@field empty_sockets ContainerSocket[] All the empty sockets that the gantry cluster has access to.
+---@field finished_sockets ContainerSocket[] All the sockets that have containers, but meet the requirements to be unloaded.
 
 -- Constructor for a gantry cluster.
 -- This object manages multiple gantries in a cluster.

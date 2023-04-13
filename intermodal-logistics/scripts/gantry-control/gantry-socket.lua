@@ -1,21 +1,21 @@
 require("gantry-socket-conditions");
 
 -- Sets the filter at the given index.
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@param index number
 ---@param filter string The filter to set.
 function socket_set_filter(socket, index, filter)
 	socket.filters[index] = filter;
 end
 
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@param index number
 ---@return string | nil # the set filter at a given index or nil if there is no filter set.
 function socket_get_filter(socket, index)
 	return socket.filters[index];
 end
 
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@return string[] # a sorted array of all the items requested by this socket.
 function socket_get_filters(socket)
 	-- Loop over all the entries in the socket.filters
@@ -45,14 +45,14 @@ function socket_get_filters(socket)
 	return filters_set;
 end
 
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@return boolean # true if this socket has a container.
 function socket_has_container(socket)
 	return socket.has_container;
 end
 
 -- Returns a sorted array of all the items offered by this socket.
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@return string[] # Sorted names of the items in this container with no duplicates.
 function socket_get_items(socket)
 	if (socket_has_container(socket)) then
@@ -70,13 +70,13 @@ end
 ---Note: does not check if a container if present.
 ---
 ---Call socket_has_container(socket) before this to know for certain.
----@param socket Socket self.
+---@param socket ContainerSocket self.
 ---@return boolean # true if this socket's remove conditions are met.
 function socket_meets_conditions(socket)
 	return socket_conditional_meets_conditions(socket.conditionals, socket.entity);
 end
 
----@class Socket
+---@class ContainerSocket
 ---@field entity LuaEntity Reference to the socket entity in the world.
 ---@field has_container boolean Stores whether this socket has an intermodal container in it.
 ---@field filters string[] Collection of all the filters set on this socket.
@@ -87,9 +87,9 @@ end
 -- This is a constructor for a socket.
 -- A socket is a representation of a dock or a flatbed wagon.
 ---@param entity LuaEntity
----@return Socket
+---@return ContainerSocket
 function make_socket(entity)
-	---@type Socket
+	---@type ContainerSocket
 	local socket = {
 		entity = entity;
 		has_container = false;
