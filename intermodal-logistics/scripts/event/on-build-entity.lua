@@ -6,13 +6,16 @@ require("scripts.create-gantry");
 ---@param event EventData.on_built_entity | EventData.on_robot_built_entity
 function on_build_entity(event)
 	-- We access the global lookup table to check if the created entity is a registered prototype.
-	local type = intermodal_logistics_game:get_type(event.created_entity.name);
-	-- Lua does not have switch statements.
+	local custom_prototype = intermodal_logistics_game:get_prototype_by_associated_prototype(event.created_entity.name);
+
+	---@type {[string]: fun()} Lua does not have switch statements.
 	local switch = {
 		gantry = function()
-			local gantry_prototype = intermodal_logistics_game:get_prototype(type);
-			local player = game.get_player(event.player_index);
+			---Rename and cast the variable.
+			---@cast custom_prototype GantryPrototype
+			local gantry_prototype = custom_prototype;
 
+			local player = game.get_player(event.player_index);
 			local gantry_is_on_rails = gantry_prototype_check_for_rails(gantry_prototype, event.created_entity);
 			local gantry_is_obstructed = not gantry_prototype_check_for_obstructions(gantry_prototype,
 					event.created_entity);
@@ -22,7 +25,7 @@ function on_build_entity(event)
 					event.created_entity.direction);
 			local player_has_missing_rails = number_of_rails_in_player_inventory >= number_of_rails_needed;
 
-			if (gantry_is_obstructed or ((not gantry_is_on_rails) and (not player_has_missing_rails))) then
+			local function reject_placement()
 				-- Play placement error sound.
 				player.play_sound { path = "utility/cannot_build" };
 				-- Spawn floating text telling player the problem.
@@ -34,15 +37,43 @@ function on_build_entity(event)
 				-- Refund player item.
 				-- Delete placed gantry.
 				event.created_entity.destroy();
-				return; -- EXIT EARLY
 			end
 
-			if ((not gantry_is_on_rails) and player_has_missing_rails) then
+			local function try_place_rails()
 				-- Place rails from player's inventory under gantry.
+
 				-- Spawn floating text telling player how many rails were placed.
+				player.create_local_flying_text {
+					text = { "gantry-help.rails-placed", number_of_rails_needed },
+					create_at_cursor = true,
+					color = { 1, 1, 1, 1 },
+				};
+
+				return true;
 			end
 
-			create_gantry(event.created_entity, type);
+			-- If the gantry cannot be placed in the first place.
+			if (gantry_is_obstructed) then
+				reject_placement();
+			-- If it can be placed.
+			else if (gantry_is_on_rails) then
+				create_gantry(event.created_entity, gantry_prototype);
+			-- If it needs rails.
+			else
+				-- If the player has those rails.
+				if (player_has_missing_rails) then
+					-- Try to place those rails
+					if(try_place_rails()) then
+						create_gantry(event.created_entity, gantry_prototype);
+					-- Those rails could not be placed for some reason.
+					else
+						reject_placement();
+					end
+				-- If the player does not have those rails.
+				else
+					reject_placement();
+				end
+			end
 		end,
 		-- This is called if the entity is registered as a dock
 		-- dock = function()
@@ -80,11 +111,11 @@ function on_build_entity(event)
 	};
 	-- If the entity is registed as a socket
 	if (type ~= nil) then
-		-- Get its handler via the "switch" "statement"
+		---@type fun() Get its handler via the "switch" "statement"
 		local handler = switch[type];
 		if (handler == nil) then
-			error("no handler found for socket type " + type);
-			-- Only actually run the handler if this is the dummy.
+			-- Only actually run the handler if we have one.
+			error("no configuration handler found for custom type " + type);
 		else
 			handler();
 		end

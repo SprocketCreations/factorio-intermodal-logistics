@@ -2,11 +2,11 @@
 require("scripts.gantry-control.gantry-controller");
 
 ---Replaces a gantry dummy with its functional variant.
----@param entity_to_replace LuaEntity The entity to replace. This entity will be destroyed by this operation.
----@param gantry_data table The data to be used when constructing this gantry.
-function create_gantry(entity_to_replace, gantry_data)
+---@param gantry_dummy LuaEntity The entity to replace. This entity will be destroyed by this operation.
+---@param gantry_prototype GantryPrototype The gantry prototype to be used when constructing this gantry.
+function create_gantry(gantry_dummy, gantry_prototype)
 	---@type LuaSurface
-	local surface = entity_to_replace.surface;
+	local surface = gantry_dummy.surface;
 
 	local rotation_map = {
 		[defines.direction.north] = "north";
@@ -14,21 +14,21 @@ function create_gantry(entity_to_replace, gantry_data)
 		[defines.direction.south] = "south";
 		[defines.direction.west] = "west";
 	};
-	local direction = entity_to_replace.direction;
+	local direction = gantry_dummy.direction;
 	local rotation = rotation_map[direction];
-	local data = gantry_data.rotations[rotation];
+	local data = gantry_prototype.rotations[rotation];
 	local settings = {
 		name = data.prototype;
-		position = entity_to_replace.position,
-		force = entity_to_replace.force,
-		player = entity_to_replace.last_user.index,
+		position = gantry_dummy.position,
+		force = gantry_dummy.force,
+		player = gantry_dummy.last_user.index,
 		raise_built = true,
 		create_build_effect_smoke = false,
 		spawn_decorations = false,
 		move_stuck_players = true,
 	};
 
-	entity_to_replace.destroy();
+	gantry_dummy.destroy();
 	local gantry_entity = surface.create_entity(settings);
 
 	---@type LuaEntity[]
