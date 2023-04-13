@@ -2,6 +2,7 @@ require("scripts.util.stringify");
 
 ---@class IntermodalLogisticsPipeline
 ---Properties:
+---@field rails RailPrototype[]
 ---@field gantries GantryPrototype[]
 ---@field docks DockPrototype[]
 ---@field containers ContainerPrototype[]
