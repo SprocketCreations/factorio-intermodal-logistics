@@ -1,21 +1,5 @@
-
-
-
 ---@type IntermodalLogisticsData All the prototypes will be collected here.
-intermodal_logistics_data = {
-	raw = {};
-};
----Registers one or more custom prototypes with the intermodal logistics mod.
----@param prototypes table[] An array of prototypes.
-function intermodal_logistics_data:extend(prototypes)
-	for _, prototype in pairs(prototypes) do
-		if(self.raw[prototype.type] == nil) then
-			error("Intermodal Logistics Error: " .. prototype.type .. " is not a valid type.")
-		end
-		table.insert(self.raw[prototype.type], prototype);
-	end
-end
-
+intermodal_logistics_data = make_intermodal_logistics_data();
 
 require("prototypes.group")
 require("prototypes.item");
