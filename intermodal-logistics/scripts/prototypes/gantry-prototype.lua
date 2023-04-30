@@ -1,3 +1,5 @@
+require("scripts.prototypes.custom-prototype");
+
 ---@class GantryPrototype: CustomPrototype
 ---@field placement_dummy_prototype string The name of the prototype used when placing a gantry on a surface.
 ---@field rotations {north: GantryPrototypeRotation, east: GantryPrototypeRotation, south: GantryPrototypeRotation, west: GantryPrototypeRotation} The specific data for each rotation of the placed gantry.
@@ -15,27 +17,34 @@
 ---@field prototype string The name of this bogey's prototype.
 ---@field positions MapPosition[] An array of all the positions this bogey should appear in.
 
----Constructor for a new gantry prototype.
+---Constructor for the GantryPrototype class.
+---@param type string The type of the prototype.
+---@param name string The name of the prototype.
 ---@param placement_dummy_prototype string The name of the entity prototype to use for player placement.
 ---@param work_width UncenteredWidth The name of the entity prototype to use for player placement.
 ---@param clone_north boolean? Whether the north and south rotations should share a table. Default: false.
 ---@param clone_east boolean? Whether the east and west rotations should share a table. Default: false.
----@return GantryPrototype # The new gantry prototype table.
-function make_gantry_prototype(placement_dummy_prototype, work_width, clone_north, clone_east)
+---@return GantryPrototype # The new gantry prototype.
+function make_gantry_prototype(type, name, placement_dummy_prototype, work_width, clone_north, clone_east)
+	local super = make_custom_prototype(type, name);
+	---@cast super GantryPrototype
+
+
 	clone_north = clone_north or false;
 	clone_east = clone_east or false;
 	local north = { bogies = {} };
 	local east = { bogies = {} };
-	return {
-		placement_dummy_prototype = placement_dummy_prototype,
-		work_width = work_width,
-		rotations = {
-			north = north,
-			east = east,
-			south = clone_north and north or { bogies = {} },
-			west = clone_east and east or { bogies = {} },
-		},
+
+	super.placement_dummy_prototype = placement_dummy_prototype;
+	super.work_width = work_width;
+	super.rotations = {
+		north = north,
+		east = east,
+		south = clone_north and north or { bogies = {} },
+		west = clone_east and east or { bogies = {} },
 	};
+
+	return super;
 end
 
 local get_rotation_key = {
@@ -100,13 +109,14 @@ function gantry_prototype_check_for_rails(gantry_prototype, gantry_dummy_entity)
 	---@type GantryPrototypeRotation
 	local rotation = gantry_prototype.rotations[get_rotation_key[gantry_dummy_entity.direction]];
 
-	local required_number_of_rails = gantry_prototype_get_required_number_of_rails(gantry_prototype, gantry_dummy_entity.direction);
+	local required_number_of_rails = gantry_prototype_get_required_number_of_rails(gantry_prototype,
+		gantry_dummy_entity.direction);
 	local number_of_rails = 0;
 
 	--TODO: This may need to be changed depending on how I implement rails later.
 	local hunt_direction = gantry_dummy_entity.direction;
-	if(hunt_direction == defines.direction.west) then hunt_direction = defines.direction.east; end
-	if(hunt_direction == defines.direction.south) then hunt_direction = defines.direction.north; end
+	if (hunt_direction == defines.direction.west) then hunt_direction = defines.direction.east; end
+	if (hunt_direction == defines.direction.south) then hunt_direction = defines.direction.north; end
 
 	-- Check each bogey on the gantry.
 	for _, bogey in ipairs(rotation.bogies) do
@@ -114,7 +124,7 @@ function gantry_prototype_check_for_rails(gantry_prototype, gantry_dummy_entity)
 		for _, position in ipairs(bogey.positions) do
 			local count = gantry_dummy_entity.surface.count_entities_filtered {
 				area = bogey_prototype.collision_box,
-				name = intermodal_logistics_game:get_rail_prototypes(),
+				name = intermodal_logistics_game:get_gantry_rail_prototypes(),
 				direction = hunt_direction,
 			};
 			number_of_rails = number_of_rails + count;

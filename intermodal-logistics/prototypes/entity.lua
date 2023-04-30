@@ -1,7 +1,7 @@
+-- All the prototypes are in ./entity
 
-require("entity.rail");
+require("entity.blank-large-container");
 require("entity.flatbed-container-wagon");
-
-require("entity.dock");
-
+require("entity.gantry-rail");
+require("entity.large-container-dock");
 require("entity.small-gantry");

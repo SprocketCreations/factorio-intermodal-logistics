@@ -1,15 +1,14 @@
 require("scripts.util.parse-table");
 
----@class CustomPrototype
----@field type string The type of the prototype.
----@field name string The name of the prototype.
 
 ---@class IntermodalLogisticsGame
 ---Properties:
----@field rails RailPrototype[]
 ---@field gantries GantryPrototype[]
----@field docks DockPrototype[]
----@field containers ContainerPrototype[]
+---@field gantry_rails GantryRailPrototype[]
+---@field small_containers SmallContainerPrototype[]
+---@field large_containers LargeContainerPrototype[]
+---@field small_container_docks SmallContainerDockPrototype[]
+---@field large_container_docks LargeContainerDockPrototype[]
 ---@field container_wagons ContainerWagonPrototype[]
 ---@field container_ships ContainerShipPrototype[]
 ---Lookup tables:
@@ -19,7 +18,7 @@ require("scripts.util.parse-table");
 ---Methods:
 ---@field get_prototype_by_name fun(self: IntermodalLogisticsGame, prototype_name: string): CustomPrototype Gets a prototype's data given its name.
 ---@field get_prototype_by_associated_prototype fun(self: IntermodalLogisticsGame, prototype_name: string): CustomPrototype Gets a prototype's data given its accociated vanilla prototype name.
----@field get_rail_prototypes fun(self: IntermodalLogisticsGame): string[] Returns an array of rail prototype names. Meant for use with LuaSurface.find_entities_filtered.
+---@field get_gantry_rail_prototypes fun(self: IntermodalLogisticsGame): string[] Returns an array of rail prototype names. Meant for use with LuaSurface.find_entities_filtered.
 
 ---Constructor for an IntermodalLogisticsGame.
 ---@param intermodal_logistics_pipeline IntermodalLogisticsPipeline The pipeline data.
@@ -99,32 +98,37 @@ function make_intermodal_logistics_game(intermodal_logistics_pipeline)
 
 	---Returns an array of rail prototype names. Meant for use with LuaSurface.find_entities_filtered.
 	---@return string[] # Prototype names.
-	function intermodal_logistics_game:get_rail_prototypes()
+	function intermodal_logistics_game:get_gantry_rail_prototypes()
 		return self.rail_prototype_names;
 	end
 
 	return intermodal_logistics_game;
 end
 
----@return string # The reconstructed jsnot from the data stage.
-local function get_jsnot()
+---@return string # The reconstructed dump from the data stage.
+local function get_dump()
 	local pipeline = game.recipe_category_prototypes["gantry-data-control-pipeline"];
 	---@type string[]
-	local jsnot_builder = {};
+	local dump = {};
 	for i = 1, #(pipeline.localised_description), 1 do
-		table.insert(jsnot_builder, pipeline.localised_description[i]);
+		table.insert(dump, pipeline.localised_description[i]);
 	end
 	if (type(pipeline.localised_name) == "table") then
 		for i = 1, #(pipeline.localised_name), 1 do
-			table.insert(jsnot_builder, pipeline.localised_name[i]);
+			table.insert(dump, pipeline.localised_name[i]);
 		end
 	end
 	---@type string
-	return table.concat(jsnot_builder);
+	return table.concat(dump);
 end
 
 
 function parse_data_pipeline()
-	---@type IntermodalLogisticsGame
-	intermodal_logistics_game = make_intermodal_logistics_game(parse_table(get_jsnot()));
+	local ok, res = serpent.load(get_dump());
+	if (ok) then
+		---@type IntermodalLogisticsGame
+		intermodal_logistics_game = make_intermodal_logistics_game(res);
+	else
+		error("Failure parsing data pipeline: " .. res);
+	end
 end

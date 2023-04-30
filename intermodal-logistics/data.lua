@@ -1,3 +1,5 @@
+require("scripts.intermodal-logistics-data");
+
 ---@type IntermodalLogisticsData All the prototypes will be collected here.
 intermodal_logistics_data = make_intermodal_logistics_data();
 

@@ -6,7 +6,7 @@ flatbed_container_wagon.container_length = 2;
 flatbed_container_wagon.max_container_stack = 1;
 flatbed_container_wagon.allow_half_loading = true;
 -- Vanilla stuff:
-flatbed_container_wagon.name = "flatbed-wagon";
+flatbed_container_wagon.name = "intermodal-logistics-flatbed";
 -- empty_flatbed_wagon.icon = "__intermodal-logistics__/graphics/icon/empty-flatbed-wagon.png";
 -- empty_flatbed_wagon.icon_size = 32;
 -- empty_flatbed_wagon.icon_mipmaps = 1;
@@ -27,11 +27,11 @@ flatbed_container_wagon.vertical_doors = nil;
 	According to this product: https://www.vtg.com/hiring/our-fleet/i41040d,
 	the ratio between rolling stock and container is 1:3.
 
-	Therefore, the weight of this rolling stock should be 1/4 of the vanilla 
+	Therefore, the weight of this rolling stock should be 1/4 of the vanilla
 	cargo wagon.
 --[[]]
 flatbed_container_wagon.weight = 250;
---[[ 
+--[[
 empty_flatbed_wagon.minimap_representation =
 {
 	filename = "__intermodal-logistics__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-minimap-representation.png",
@@ -46,10 +46,9 @@ empty_flatbed_wagon.selected_minimap_representation =
 	size = { 20, 40 },
 	scale = 0.5,
 } ]]
-
-flatbed_container_wagon.joint_distance = 8;-- default 4
-flatbed_container_wagon.collision_box = {{-0.6, -4.4}, {0.6, 4.4}};-- default {{-0.6, -2.4}, {0.6, 2.4}}
-flatbed_container_wagon.selection_box = {{-1, -4.703125}, {1, 5.296875}};-- default {{-1, -2.703125}, {1, 3.296875}}
+flatbed_container_wagon.joint_distance = 8;                                     -- default 4
+flatbed_container_wagon.collision_box = { { -0.6, -4.4 }, { 0.6, 4.4 } };       -- default {{-0.6, -2.4}, {0.6, 2.4}}
+flatbed_container_wagon.selection_box = { { -1, -4.703125 }, { 1, 5.296875 } }; -- default {{-1, -2.703125}, {1, 3.296875}}
 
 
 -- RotatedSprite pictures
@@ -68,7 +67,7 @@ flatbed_container_wagon.pictures =
 			line_length = 4,
 			lines_per_file = 8,
 			scale = 0.873,
-			shift = {0, -0.5},
+			shift = { 0, -0.5 },
 			filenames =
 			{
 				"__intermodal-logistics__/graphics/entity/empty-flatbed-wagon/empty-flatbed-wagon-01.png",
@@ -165,4 +164,4 @@ flatbed_container_wagon.pictures =
 
 
 
-intermodal_logistics_data:extend({flatbed_container_wagon});
+intermodal_logistics_data:extend { flatbed_container_wagon };

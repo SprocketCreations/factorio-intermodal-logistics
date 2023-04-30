@@ -3,7 +3,7 @@
 ---@param message string? The message to display as the error.
 function assert(condition, message)
 	message = message or "An assert has failed a condition.";
-	if(not condition) then
+	if (not condition) then
 		error(message);
 	end
 end
@@ -14,7 +14,7 @@ end
 ---@param message string? The message to display as the error.
 function assert_type(r, t, message)
 	message = message or "An assert has failed a type check.";
-	if(type(r) ~= t) then
+	if (type(r) ~= t) then
 		error(message);
 	end
 end

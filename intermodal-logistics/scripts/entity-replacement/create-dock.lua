@@ -1,5 +1,5 @@
 -- Replaces a dummy dock with its real version
-function create_dock(entity_to_replace, new_prototype)
+function create_container_dock(entity_to_replace, new_prototype)
 	local surface = entity_to_replace.surface;
 	local settings = {
 		name = new_prototype,

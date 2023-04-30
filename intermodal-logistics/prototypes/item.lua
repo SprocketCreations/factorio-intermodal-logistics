@@ -1,1 +1,1 @@
-require("item.dock");
+require("item.large-container-dock");
