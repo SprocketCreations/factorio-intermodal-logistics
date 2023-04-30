@@ -1,7 +1,7 @@
-
 -- Initializers
 require("scripts.intermodal-logistics-game");
 require("scripts.interface");
+require("scripts.globals");
 
 -- Events
 require("scripts.event.on-build-entity");

@@ -70,7 +70,16 @@ function make_intermodal_logistics_pipeline()
 
 	---Packages the pipeline so it can be reaquired during the control stage.
 	function intermodal_logistics_pipeline:send()
-		local dump = serpent.dump(intermodal_logistics_game);
+		local dump = serpent.dump {
+			gantries = intermodal_logistics_pipeline.gantries,
+			gantry_rails = intermodal_logistics_pipeline.gantry_rails,
+			small_containers = intermodal_logistics_pipeline.small_containers,
+			large_containers = intermodal_logistics_pipeline.large_containers,
+			small_container_docks = intermodal_logistics_pipeline.small_container_docks,
+			large_container_docks = intermodal_logistics_pipeline.large_container_docks,
+			container_wagons = intermodal_logistics_pipeline.container_wagons,
+			container_ships = intermodal_logistics_pipeline.container_ships,
+		};
 
 		local mutilated_data = {};
 
@@ -94,7 +103,7 @@ function make_intermodal_logistics_pipeline()
 			localised_description = { table.unpack(mutilated_data, 1, 200) },
 			-- Table limited to 20 entries.
 			localised_name = #mutilated_data < 201 and { "" } or { table.unpack(mutilated_data, 201, 400) },
-			name = "gantry-data-control-pipeline-0",
+			name = "intermodal-logistics-data-control-pipeline-0",
 			type = "recipe-category",
 			--group = "gantry-group";
 		} };

@@ -1,5 +1,5 @@
 require("scripts.util.parse-table");
-
+require("util");
 
 ---@class IntermodalLogisticsGame
 ---Properties:
@@ -14,7 +14,7 @@ require("scripts.util.parse-table");
 ---Lookup tables:
 ---@field prototype_map {[string]: CustomPrototype}
 ---@field associated_prototype_map {[string]: CustomPrototype}
----@field rail_prototype_names string[]
+---@field gantry_rail_prototype_names string[]
 ---Methods:
 ---@field get_prototype_by_name fun(self: IntermodalLogisticsGame, prototype_name: string): CustomPrototype Gets a prototype's data given its name.
 ---@field get_prototype_by_associated_prototype fun(self: IntermodalLogisticsGame, prototype_name: string): CustomPrototype Gets a prototype's data given its accociated vanilla prototype name.
@@ -27,20 +27,23 @@ function make_intermodal_logistics_game(intermodal_logistics_pipeline)
 	---@type IntermodalLogisticsGame
 	local intermodal_logistics_game = {
 		-- Arrays.
-		rails = table.deepcopy(intermodal_logistics_pipeline.rails),
-		gantries = table.deepcopy(intermodal_logistics_pipeline.gantries),
-		docks = table.deepcopy(intermodal_logistics_pipeline.docks),
-		containers = table.deepcopy(intermodal_logistics_pipeline.containers),
-		container_wagons = table.deepcopy(intermodal_logistics_pipeline.container_wagons),
-		container_ships = table.deepcopy(intermodal_logistics_pipeline.container_ships),
+		gantry_rails = util.table.deepcopy(intermodal_logistics_pipeline.gantry_rails),
+		gantries = util.table.deepcopy(intermodal_logistics_pipeline.gantries),
+		small_containers = util.table.deepcopy(intermodal_logistics_pipeline.small_containers),
+		small_container_docks = util.table.deepcopy(intermodal_logistics_pipeline.small_container_docks),
+		large_containers = util.table.deepcopy(intermodal_logistics_pipeline.large_containers),
+		large_container_docks = util.table.deepcopy(intermodal_logistics_pipeline.large_container_docks),
+		container_wagons = util.table.deepcopy(intermodal_logistics_pipeline.container_wagons),
+		container_ships = util.table.deepcopy(intermodal_logistics_pipeline.container_ships),
 		-- Lookup tables.
 		prototype_map = {},
-		placement_handled = {},
-		rail_prototype_names = {},
+		associated_prototype_map = {},
+		gantry_rail_prototype_names = {},
 	};
 
-	for _, rail in ipairs(intermodal_logistics_game.rails) do
-		table.insert(intermodal_logistics_game.rail_prototype_names, rail.name);
+	for _, gantry_rail in ipairs(intermodal_logistics_game.gantry_rails) do
+		gantry_rail.type = "gantry-gantry";
+		table.insert(intermodal_logistics_game.gantry_rail_prototype_names, gantry_rail.name);
 	end
 	for _, gantry in ipairs(intermodal_logistics_game.gantries) do
 		gantry.type = "gantry";
@@ -63,15 +66,25 @@ function make_intermodal_logistics_game(intermodal_logistics_pipeline)
 			intermodal_logistics_game.associated_prototype_map[bogey.prototype] = gantry;
 		end
 	end
-	for _, dock in ipairs(intermodal_logistics_game.docks) do
-		dock.type = "dock";
-		intermodal_logistics_game.prototype_map[dock.name] = dock;
-		-- associations
-		intermodal_logistics_game.associated_prototype_map[dock.placement_dummy_prototype] = dock;
+	for _, small_container_dock in ipairs(intermodal_logistics_game.small_container_docks) do
+		-- dock.type = "dock";
+		-- intermodal_logistics_game.prototype_map[dock.name] = dock;
+		-- -- associations
+		-- intermodal_logistics_game.associated_prototype_map[dock.placement_dummy_prototype] = dock;
 	end
-	for _, container in ipairs(intermodal_logistics_game.containers) do
-		container.type = "container";
-		intermodal_logistics_game.prototype_map[container.name] = container;
+	for _, small_container in ipairs(intermodal_logistics_game.small_containers) do
+		small_container.type = "small-container";
+		intermodal_logistics_game.prototype_map[small_container.name] = small_container;
+	end
+	for _, large_container_dock in ipairs(intermodal_logistics_game.large_container_docks) do
+		-- dock.type = "dock";
+		-- intermodal_logistics_game.prototype_map[dock.name] = dock;
+		-- -- associations
+		-- intermodal_logistics_game.associated_prototype_map[dock.placement_dummy_prototype] = dock;
+	end
+	for _, large_container in ipairs(intermodal_logistics_game.large_containers) do
+		large_container.type = "large-container";
+		intermodal_logistics_game.prototype_map[large_container.name] = large_container;
 	end
 	for _, container_wagon in ipairs(intermodal_logistics_game.container_wagons) do
 		container_wagon.type = "container-wagon";
@@ -99,7 +112,7 @@ function make_intermodal_logistics_game(intermodal_logistics_pipeline)
 	---Returns an array of rail prototype names. Meant for use with LuaSurface.find_entities_filtered.
 	---@return string[] # Prototype names.
 	function intermodal_logistics_game:get_gantry_rail_prototypes()
-		return self.rail_prototype_names;
+		return self.gantry_rail_prototype_names;
 	end
 
 	return intermodal_logistics_game;
@@ -107,7 +120,7 @@ end
 
 ---@return string # The reconstructed dump from the data stage.
 local function get_dump()
-	local pipeline = game.recipe_category_prototypes["gantry-data-control-pipeline"];
+	local pipeline = game.recipe_category_prototypes["intermodal-logistics-data-control-pipeline-0"];
 	---@type string[]
 	local dump = {};
 	for i = 1, #(pipeline.localised_description), 1 do

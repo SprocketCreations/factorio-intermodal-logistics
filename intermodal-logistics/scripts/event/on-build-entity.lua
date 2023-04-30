@@ -1,6 +1,6 @@
 require("scripts.gantry-control.gantry-socket");
-require("scripts.create-dock");
-require("scripts.create-gantry");
+require("scripts.entity-replacement.create-large-container-dock");
+require("scripts.entity-replacement.create-gantry");
 
 ---Called whenever an entity is created in the world.
 ---@param event EventData.on_built_entity | EventData.on_robot_built_entity
@@ -18,11 +18,11 @@ function on_build_entity(event)
 			local player = game.get_player(event.player_index);
 			local gantry_is_on_rails = gantry_prototype_check_for_rails(gantry_prototype, event.created_entity);
 			local gantry_is_obstructed = not gantry_prototype_check_for_obstructions(gantry_prototype,
-					event.created_entity);
+				event.created_entity);
 
 			local number_of_rails_in_player_inventory = player.get_main_inventory().get_item_count("gantry-rail");
 			local number_of_rails_needed = gantry_prototype_get_required_number_of_rails(gantry_prototype,
-					event.created_entity.direction);
+				event.created_entity.direction);
 			local player_has_missing_rails = number_of_rails_in_player_inventory >= number_of_rails_needed;
 
 			local function reject_placement()
@@ -30,7 +30,8 @@ function on_build_entity(event)
 				player.play_sound { path = "utility/cannot_build" };
 				-- Spawn floating text telling player the problem.
 				player.create_local_flying_text {
-					text = gantry_is_obstructed and { "cant-build-reason.entity-in-the-way", "Entity" } or { "cant-build-reason.no-rails-for-gantry" },
+					text = gantry_is_obstructed and { "cant-build-reason.entity-in-the-way", "Entity" } or
+						{ "cant-build-reason.no-rails-for-gantry" },
 					create_at_cursor = true,
 					color = { 1, 1, 1, 1 },
 				};
@@ -55,28 +56,28 @@ function on_build_entity(event)
 			-- If the gantry cannot be placed in the first place.
 			if (gantry_is_obstructed) then
 				reject_placement();
-			-- If it can be placed.
-			else if (gantry_is_on_rails) then
+				-- If it can be placed.
+			elseif (gantry_is_on_rails) then
 				create_gantry(event.created_entity, gantry_prototype);
-			-- If it needs rails.
+				-- If it needs rails.
 			else
 				-- If the player has those rails.
 				if (player_has_missing_rails) then
 					-- Try to place those rails
-					if(try_place_rails()) then
+					if (try_place_rails()) then
 						create_gantry(event.created_entity, gantry_prototype);
-					-- Those rails could not be placed for some reason.
+						-- Those rails could not be placed for some reason.
 					else
 						reject_placement();
 					end
-				-- If the player does not have those rails.
+					-- If the player does not have those rails.
 				else
 					reject_placement();
 				end
 			end
 		end,
 		-- This is called if the entity is registered as a dock
-		-- dock = function()
+		-- ["large_container_dock"] = function()
 		-- 	local new_entity = event.created_entity;
 		-- 	if (object.placement_dummy_prototype_name == event.created_entity.name) then
 		-- 		-- The dock has two steps:
@@ -99,12 +100,12 @@ function on_build_entity(event)
 		-- 	global.sockets[new_entity.unit_number] = socket;
 		-- end,
 		-- -- This is called if the entity is registered as a flatbed
-		-- flatbed = function()
+		-- ["container_wagon"] = function()
 		-- 	local socket = make_socket();
 		-- 	global.sockets[event.created_entity.unit_number] = socket;
 		-- end,
 		-- -- This is called if the entity is registered as a cargoship
-		-- cargoship = function()
+		-- ["container-ship"] = function()
 		-- 	local socket = make_socket();
 		-- 	global.sockets[event.created_entity.unit_number] = socket;
 		-- end,

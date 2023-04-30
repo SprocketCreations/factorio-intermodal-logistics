@@ -2,32 +2,32 @@
 -- either via mining or death.
 function on_destroy_entity(event)
 	-- We access the global lookup table to check if the destroyed entity is registered as a socket.
-	local object = gantry_prototype.socket_prototypes[event.entity.name];
+	local prototype = intermodal_logistics_game:get_prototype_by_name(event.entity.name);
 	-- Lua does not have switch statements to my knowledge.
 	local switch = {
 		gantry = function()
 			gantry_controller_destroy(global.gantry_controllers[event.entity.unit_number]);
 			global.gantry_controllers[event.entity.unit_number] = nil;
-		end;
+		end,
 		-- This is called if the entity is registered as a dock
-		dock = function()
+		["large-container-dock"] = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end;
+		end,
 		-- This is called if the entity is registered as a flatbed
-		flatbed = function()
+		["container-wagon"] = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end;
+		end,
 		-- This is called if the entity is registered as a cargoship
-		cargoship = function()
+		["container-ship"] = function()
 			global.sockets[event.entity.unit_number] = nil;
-		end;
+		end,
 	};
 	-- If the entity is registed as a socket
-	if (object ~= nil) then
+	if (prototype ~= nil) then
 		-- Get its handler via the "switch" "statement"
-		local handler = switch[object.type];
+		local handler = switch[prototype.type];
 		if (handler == nil) then
-			error("no handler found for socket type " + object.type);
+			error("no handler found for socket type " + prototype.type);
 		else
 			handler();
 		end

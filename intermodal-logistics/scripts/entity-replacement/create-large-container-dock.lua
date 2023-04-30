@@ -1,5 +1,8 @@
--- Replaces a dummy dock with its real version
-function create_container_dock(entity_to_replace, new_prototype)
+---Replaces a dummy dock with its real version
+---@param entity_to_replace LuaEntity The dummy entity.
+---@param new_prototype LargeContainerDockPrototype The dock prototype to use in instantiation.
+---@return LuaEntity
+function create_large_container_dock(entity_to_replace, new_prototype)
 	local surface = entity_to_replace.surface;
 	local settings = {
 		name = new_prototype,
@@ -14,5 +17,8 @@ function create_container_dock(entity_to_replace, new_prototype)
 
 	entity_to_replace.destroy();
 	local entity = surface.create_entity(settings);
+	if (entity == nil) then
+		error("Large container dock failed to create.");
+	end
 	return entity;
 end
